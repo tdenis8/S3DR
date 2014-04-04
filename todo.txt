@@ -4,7 +4,7 @@ TODO:
 
 - Fix camera
 - Introduce base scene object 
-
+- In the premake script, fix S3DRLib includedirs. Merge include and src folders.
 
 ==================================
 BUGS:

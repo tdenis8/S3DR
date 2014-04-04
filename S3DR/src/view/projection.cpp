@@ -10,7 +10,7 @@ Projection::Projection(float field_of_view, int window_width, int window_height,
 	near_plane(near_plane),
 	far_plane(far_plane),
 	projection_matrix(glm::mat4(1.0)),
-	projection_type(ProjectionType::Perspective)
+	projection_type(ProjectionType::Orthogonal)
 {
 	CalculateProjection();
 }

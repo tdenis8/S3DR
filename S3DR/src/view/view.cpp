@@ -27,11 +27,11 @@ View::View():
         throw e;
     }
 
-	camera.reset(new Camera(glm::vec3(0.0f, 0.0f, 10.0f),
-							glm::vec3(0.0, 0.0, 0.0),
+	camera.reset(new Camera(glm::vec3(0.0f, 0.0f, 0.0f),
+							glm::vec3(0.0, 0.0, -1.0),
 							glm::vec3(0.0, 1.0, 0.0)));
 
-	projection.reset(new Projection(10.0f, 800, 600, -0.1f, 1000.0f));
+	projection.reset(new Projection(15.0f, 800, 600, -0.1f, 100.0f));
 	
 	// Inform observers to set default width and height
 	Emit(ViewEvent::WINDOW_RESIZE, WindowResizeInfo(800, 600));

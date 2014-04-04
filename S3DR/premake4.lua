@@ -9,11 +9,9 @@ project "S3DRLib"
     objdir "build"
     
     files  "src/**.cpp"
-    --files  "include/**.hpp"
+    files  "include/**.hpp"
 
-    includedirs {"include/", "include/misc", "include/view", "include/model", "include/operator",
-                 "include/open_gl", "include/open_gl/object_adapters", "include/open_gl/object_renderers",
-                 "include/open_gl/misc", "include/open_gl/techniques/" }
+    includedirs {"src/" }
     
     configuration "Debug"
         defines { "DEBUG" }
@@ -38,7 +36,7 @@ project "S3DRTest"
     files  "tests/**.hpp"
 
     links {"SOIL", "S3DRLib", "GL", "GLEW", "glfw", "assimp"}
-    includedirs {"include"}
+    includedirs {"src"}
 
     configuration "Debug"
         defines { "DEBUG" }

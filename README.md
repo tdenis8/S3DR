@@ -4,7 +4,7 @@ S3DR - Small 3D renderer
 About
 -----
 
-S3DR is a small 3D, openGL based, renderer for the C++ programming language. 
+S3DR is a small, openGL based, renderer library for the C++ programming language. 
 
 
 Build requirements
@@ -16,12 +16,11 @@ Build requirements
   * GLEW library - http://glew.sourceforge.net/
   * premake4 - http://industriousone.com/premake
 
-* Required to compile a Fenix3D utility library:
-  * Assimp library - http://assimp.sourceforge.net/
-
 * Required to compile library tests and examples:
   * GLFW library - http://www.glfw.org/
 
+* Required to compile a S3DR utility library:
+  * Assimp library - http://assimp.sourceforge.net/
 
 Building
 --------
@@ -44,7 +43,7 @@ Generate makefiles:
 premake4 gmake
 ```
 
-Compile S3DR library(S3DR/lib/libs3dr.a):
+Compile S3DR library (S3DR/lib/libs3dr.a):
 
 ```bash
 make config=release verbose=true -j 4

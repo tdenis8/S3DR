@@ -25,6 +25,7 @@ project "S3DRLib"
         flags {"Optimize", "ExtraWarnings"};
         targetname("s3dr")   
 
+
 -- S3DR test
 project "S3DRTest"
     kind "ConsoleApp"

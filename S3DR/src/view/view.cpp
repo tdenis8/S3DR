@@ -1,6 +1,7 @@
 #include "view.hpp"
 
-#include "misc/custom_exp.hpp"
+#include "utility/custom_exp.hpp"
+
 #include "model/model.hpp"
 #include "open_gl/open_gl_view_adapter.hpp"
 #include "operator/operator.hpp"

@@ -1,7 +1,7 @@
 #ifndef _MODEL_HPP_
 #define _MODEL_HPP_
 
-#include "misc/subject.hpp"
+#include "utility/subject.hpp"
 
 #include <memory>
 #include <stack>

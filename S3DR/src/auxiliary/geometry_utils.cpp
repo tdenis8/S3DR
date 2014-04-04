@@ -1,6 +1,6 @@
 #include "geometry_utils.hpp"
 
-#include "misc/math_utils.hpp"
+#include "utility/math_utils.hpp"
 
 void CalculateNormals(const std::vector<glm::vec3> & vertices, 
                       const std::vector<glm::ivec3> & indices,

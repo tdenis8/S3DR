@@ -5,6 +5,7 @@ solution("S3DR")
         defines "LINUX"
         buildoptions { "-std=c++0x"}
         
+	include("Utility")
 	include("S3DR")
 
 

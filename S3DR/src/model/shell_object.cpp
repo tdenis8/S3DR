@@ -1,6 +1,6 @@
 #include "shell_object.hpp"
 
-#include "geometry_utils.hpp"
+#include "auxiliary/geometry_utils.hpp"
 
 ShellObject::ShellObject(SceneObject * parent, std::string name, int priority):
     SceneObject(parent, name, priority)

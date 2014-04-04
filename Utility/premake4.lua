@@ -1,7 +1,5 @@
--- S3DR lib
-project "S3DRLib"
-    prebuildcommands {"echo '*** Warning: prebuild commands in S3DR are not executed!'" }
-    -- prebuildcommands {"./pre_build_tasks.sh" }
+-- Utility lib
+project "Utility"
     kind "StaticLib"
     language "c++"
     location "."
@@ -9,23 +7,23 @@ project "S3DRLib"
     objdir "build"
     
     files  "src/**.cpp"
-    files  "include/**.hpp"
+    --files  "include/**.hpp"
 
-    includedirs {"src/", "../Utility/include/" }
+    includedirs {"include/utility"}
     
     configuration "Debug"
         defines { "DEBUG" }
         flags "Symbols"
-        targetname("s3dr_D")
+        targetname("utility_D")
 
     configuration "Release"
         defines {"RELEASE", "NDEBUG"};
         flags {"Optimize", "ExtraWarnings"};
-        targetname("s3dr")   
+        targetname("utility")   
 
 
--- S3DR test
-project "S3DRTest"
+-- Utility lib test
+project "UtilityTest"
     kind "ConsoleApp"
     language "c++"
     location "."
@@ -35,16 +33,16 @@ project "S3DRTest"
     files  "tests/**.cpp"
     files  "tests/**.hpp"
 
-    includedirs {"src", "../Utility/include/"}
+    links {}
+    includedirs {"include/"}
 
-    links {"SOIL", "Utility", "S3DRLib", "GL", "GLEW", "glfw", "assimp"}
-    
     configuration "Debug"
         defines { "DEBUG" }
         flags "Symbols"
-        targetname("s3dr_test_D")
+        targetname("utility_test_D")
 
     configuration "Release"
         defines {"RELEASE", "NDEBUG"};
         flags {"Optimize", "ExtraWarnings"};
-        targetname("s3dr_test")  
+        targetname("utility_test")  
+

@@ -1,6 +1,6 @@
 #include "assimp_mesh_loader.hpp"
 
-#include "misc/file_utils.hpp"
+#include "utility/file_utils.hpp"
 
 #include <glm/glm.hpp>
 

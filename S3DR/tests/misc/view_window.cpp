@@ -1,6 +1,7 @@
 #include "view_window.hpp"
 
-#include "misc/custom_exp.hpp"
+#include "utility/custom_exp.hpp"
+
 #include "operator/camera_operator.hpp"
 #include "view/view.hpp"
 

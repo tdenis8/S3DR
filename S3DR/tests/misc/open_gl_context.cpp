@@ -1,6 +1,6 @@
 #include "open_gl_context.hpp"
 
-#include "misc/custom_exp.hpp"
+#include "utility/custom_exp.hpp"
 
 #include <string>
 #include <GL/glew.h>

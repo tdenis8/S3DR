@@ -1,7 +1,8 @@
 #ifndef _SCENE_SETTINGS_H_
 #define _SCENE_SETTINGS_H_
 
-#include "misc/subject.hpp"
+#include "utility/subject.hpp"
+
 #include "misc/lights.hpp"
 
 #include <glm/glm.hpp>

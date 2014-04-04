@@ -1,6 +1,6 @@
 #include "program.hpp"
 
-#include "misc/custom_exp.hpp"
+#include "utility/custom_exp.hpp"
 
 Program::Program(const std::vector<Shader>& shaders):
 	program_obj(0)

@@ -1,7 +1,7 @@
 #include "auxiliary_tests.hpp"
 
-#include "misc/custom_exp.hpp"
-#include "misc/math_utils.hpp"
+#include "utility/custom_exp.hpp"
+#include "utility/math_utils.hpp"
 
 #include "model/model.hpp"
 #include "model/shell_object.hpp"

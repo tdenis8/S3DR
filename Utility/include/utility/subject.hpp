@@ -47,7 +47,7 @@ class Subject {
             }
             
             for (const auto & it : observers.at(event_type)){
-                 it.second(EventInfo());
+                it.second(EventInfo());
             }
         }
 

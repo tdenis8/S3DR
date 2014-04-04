@@ -1,7 +1,7 @@
 #ifndef _SCENE_OBJECT_H_
 #define _SCENE_OBJECT_H_
 
-#include "misc/subject.hpp"
+#include "utility/subject.hpp"
 #include "model.hpp"
 
 #include <glm/glm.hpp>

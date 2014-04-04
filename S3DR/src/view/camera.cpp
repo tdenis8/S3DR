@@ -1,6 +1,6 @@
 #include "camera.hpp"
 
-#include "misc/math_utils.hpp"
+#include "utility/math_utils.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>

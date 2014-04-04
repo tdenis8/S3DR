@@ -1,6 +1,7 @@
 #include "shader.hpp"
 
-#include "misc/custom_exp.hpp"
+#include "utility/custom_exp.hpp"
+
 #include <fstream>
 #include <sstream>
 #include <iostream>

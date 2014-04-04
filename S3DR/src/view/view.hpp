@@ -1,7 +1,7 @@
 #ifndef _VIEW_H_
 #define _VIEW_H_
 
-#include "misc/subject.hpp"
+#include "utility/subject.hpp"
 #include "mouse_events_dispatcher.hpp"
 #include "keyboard_events_dispatcher.hpp"
 #include "view_adapter.hpp"

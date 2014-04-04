@@ -1,7 +1,7 @@
 #ifndef _SELECTION_SET_H_
 #define _SELECTION_SET_H_
 
-#include "misc/subject.hpp"
+#include "utility/subject.hpp"
 
 enum class SelectionSetEvent : unsigned int { CALCULATE_SELECTION };
 

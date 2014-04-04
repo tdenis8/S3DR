@@ -1,6 +1,7 @@
 #include "scene_manager.hpp"
 
-#include "misc/custom_exp.hpp"
+#include "utility/custom_exp.hpp"
+
 #include "scene_settings.hpp"
 
 #include <glm/gtc/type_ptr.hpp>

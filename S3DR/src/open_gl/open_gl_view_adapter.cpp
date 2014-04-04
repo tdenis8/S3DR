@@ -1,6 +1,7 @@
 #include "open_gl_view_adapter.hpp"
 
-#include "misc/custom_exp.hpp"
+#include "utility/custom_exp.hpp"
+
 #include "view/view.hpp"
 #include "view/selection_set.hpp"
 #include "scene_settings.hpp"

@@ -4,6 +4,7 @@
 
 SceneObject::SceneObject(SceneObject * parent,  std::string name, int priority):
     Subject(),
+    Observer(),
     parent(parent),
     key(-1),
     name(name),
@@ -21,17 +22,15 @@ SceneObject::SceneObject(SceneObject * parent,  std::string name, int priority):
     }
 
     if(parent != nullptr){
-        auto id = parent->Observe(SceneObjectEvents::MODEL_MATRIX_CHANGED, 
-                                  std::bind(&SceneObject::ParentModelMatrixChanged, this, std::placeholders::_1));
-        observer_ids.push_back(id);
+        parent->Observe(SceneObjectEvents::MODEL_MATRIX_CHANGED, 
+                        std::bind(&SceneObject::ParentModelMatrixChanged, this, std::placeholders::_1),
+                        this);
     }
 }
 
 SceneObject::~SceneObject(){
     if(parent != nullptr){
-        for(auto id: observer_ids){
-            parent->RemoveObserver(id);
-        }
+        parent->RemoveObservers(this);
     }
 }
 

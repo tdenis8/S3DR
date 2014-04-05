@@ -11,6 +11,7 @@ TODO:
 4  + In the premake script, fix S3DRLib includedirs. Merge include and src folders.
 5  - Merge camera and projection in one class 
 6  - Camera and Light class should inherit BaseScene object (depends on 2,3) 
+7  - Things from S3DR/tests/misc should be moved to the utility lib
 
 ==================================
 BUGS:

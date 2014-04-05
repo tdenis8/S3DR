@@ -13,7 +13,7 @@
 enum class SceneObjectEvents : unsigned int { MODEL_MATRIX_CHANGED,
                                               DATA_UPDATE };
 
-class SceneObject : public Subject<SceneObjectEvents> {
+class SceneObject : public Subject<SceneObjectEvents>, Observer {
     friend class Model;
 
     public:

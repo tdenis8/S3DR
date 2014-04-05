@@ -37,7 +37,7 @@ project "S3DRTest"
 
     includedirs {"src", "../Utility/include/"}
 
-    links {"SOIL", "Utility", "S3DRLib", "GL", "GLEW", "glfw", "assimp"}
+    links {"SOIL",  "S3DRLib", "Utility","GL", "GLEW", "glfw", "assimp"}
     
     configuration "Debug"
         defines { "DEBUG" }

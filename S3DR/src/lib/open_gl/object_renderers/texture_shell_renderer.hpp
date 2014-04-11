@@ -3,6 +3,10 @@
 
 #include "scene_object_renderer.hpp"
 
+#include <glm/glm.hpp>
+
+#include <vector>
+
 class TextureShellAdapter;
 
 class TextureShellRenderer: public SceneObjectRenderer {

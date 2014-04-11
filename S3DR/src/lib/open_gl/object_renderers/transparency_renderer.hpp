@@ -3,6 +3,9 @@
 
 #include "scene_object_renderer.hpp"
 
+#include <glm/glm.hpp>
+
+#include <vector>
 #include <string>
 
 class ShellAdapter;

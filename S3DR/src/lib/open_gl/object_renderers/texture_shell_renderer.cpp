@@ -40,14 +40,14 @@ void TextureShellRenderer::SetNormalModelToCameraMatrixPA(const glm::mat3 & norm
 }
 
 void TextureShellRenderer::AttachTextureShellAdapter(TextureShellAdapter * texture_shell_adapter){
-	int priority = texture_shell_adapter->Priority();
+	int priority = texture_shell_adapter->GetPriority();
 	texture_shell_adapters[priority].push_back(texture_shell_adapter);
 }
 
 void TextureShellRenderer::DetachTextureShellAdapter(TextureShellAdapter * texture_shell_adapter){
-	int priority = texture_shell_adapter->Priority();
+	int priority = texture_shell_adapter->GetPriority();
 	for(auto it=texture_shell_adapters[priority].begin(); it!=texture_shell_adapters[priority].end(); it++){
-		if((*it)->Key() == texture_shell_adapter->Key()){
+		if((*it)->GetKey() == texture_shell_adapter->GetKey()){
 			texture_shell_adapters[priority].erase(it);
 			break;
 		}
@@ -67,9 +67,9 @@ void TextureShellRenderer::Render(const glm::mat4 & view, const glm::mat4 & proj
  	ActivateProgram();
  	SetCameraToClipMatrixPA(projection);
 	for(auto texture_shell_adapter: texture_shell_adapters[priority]){
-		glm::mat4 model_to_camera_matrix = view * texture_shell_adapter->ModelMatrixRef();
+		glm::mat4 model_to_camera_matrix = view * texture_shell_adapter->GetModelMatrix();
 		SetModelToCameraMatrixPA(model_to_camera_matrix);
-		glm::mat3 normMatrix(view*texture_shell_adapter->ModelMatrixRef());
+		glm::mat3 normMatrix(view*texture_shell_adapter->GetModelMatrix());
 		normMatrix = glm::transpose(glm::inverse(normMatrix));
 		SetNormalModelToCameraMatrixPA(normMatrix);
 		texture_shell_adapter->Render();

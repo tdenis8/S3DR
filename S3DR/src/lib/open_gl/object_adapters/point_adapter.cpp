@@ -8,7 +8,7 @@ template <typename T, unsigned size>
 inline unsigned ARRAY_SIZE(const T (&array)[size]) { return size; }
 
 PointAdapter::PointAdapter(PointObject * point_object):
-    SceneObjectAdapter(point_object),
+    SceneObjectAdapter(*point_object),
     point_object(point_object)
 {
     glGenVertexArrays(1, &vao_object);
@@ -64,7 +64,7 @@ void PointAdapter::SelectionRender(std::function<void(int)> set_scene_object_key
                                    std::function<void(int)> set_entry_index)
 {
     glBindVertexArray(vao_object);
-    set_scene_object_key(point_object->Key());
+    set_scene_object_key(point_object->GetKey());
     const std::vector<PointEntry> & entries = point_object->PointDataRef().entries;
     int entry = 0;
     for (auto iter = entries.begin(); iter != entries.end(); ++iter) {

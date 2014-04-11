@@ -1,31 +1,30 @@
 #include "scene_object_adapter.hpp"
 
-SceneObjectAdapter::SceneObjectAdapter(SceneObject * scene_object):
+SceneObjectAdapter::SceneObjectAdapter(SceneObject & scene_object):
+	Observer(),
 	scene_object(scene_object)
 {
-	auto id = scene_object->Observe(SceneObjectEvents::DATA_UPDATE,
-							 	    std::bind(&SceneObjectAdapter::SceneObjectDataUpdate, this, std::placeholders::_1));
-	observer_ids.push_back(id);
+	scene_object.Observe(SceneObjectEvents::DATA_UPDATE,
+						 std::bind(&SceneObjectAdapter::SceneObjectDataUpdate, this, std::placeholders::_1),
+						 this);
 }
 
 SceneObjectAdapter::~SceneObjectAdapter(){
-	for(auto id: observer_ids){
-		scene_object->RemoveObserver(id);
-	}
+	scene_object.RemoveObservers(this);
 }
 
 void SceneObjectAdapter::SceneObjectDataUpdate(const EventInfo & info){
 	UpdateData();
 }
 
-const glm::mat4 & SceneObjectAdapter::ModelMatrixRef() const{
-    return scene_object->ModelMatrixRef();
+const glm::mat4 & SceneObjectAdapter::GetModelMatrix() const{
+    return scene_object.GetModelMatrix();
 }
 
-int SceneObjectAdapter::Key() const{
-	return scene_object->Key();
+int SceneObjectAdapter::GetKey() const{
+	return scene_object.GetKey();
 }
 
-int SceneObjectAdapter::Priority() const{
-    return scene_object->Priority();
+int SceneObjectAdapter::GetPriority() const{
+    return scene_object.GetPriority();
 }

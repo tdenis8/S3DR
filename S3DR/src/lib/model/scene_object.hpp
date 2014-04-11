@@ -2,18 +2,17 @@
 #define _SCENE_OBJECT_H_
 
 #include "utility/subject.hpp"
+#include "auxiliary/geometry_object.hpp"
 #include "model.hpp"
 
 #include <glm/glm.hpp>
 
 #include <string>
-#include <vector>
-#include <memory>
 
-enum class SceneObjectEvents : unsigned int { MODEL_MATRIX_CHANGED,
+enum class SceneObjectEvents : unsigned int { COMBINED_MODEL_MATRIX_CHANGE,
                                               DATA_UPDATE };
 
-class SceneObject : public Subject<SceneObjectEvents>, Observer {
+class SceneObject : public Subject<SceneObjectEvents>, Observer, public GeometryObject {
     friend class Model;
 
     public:
@@ -23,16 +22,10 @@ class SceneObject : public Subject<SceneObjectEvents>, Observer {
         SceneObject & operator=(const SceneObject &)=delete;
         ~SceneObject();
 
-        std::string Name() const;
-        int Key() const;
-        int Priority() const;
-
-        const glm::mat4 & ModelMatrixRef() const;
-        const glm::mat4 & CombineModelMatrixRef() const;  // Combined a segment model matrix and parent the segment model matrix
-        void SetModelMatrix(const glm::mat4 & model_matrix);
-        void Translate(const glm::vec3 & vector);
-        void Scale(const glm::vec3 & scale_coef);
-        void Rotate(const glm::vec3 & axis, float angle_in_deg);
+        std::string GetName() const;
+        int GetKey() const;
+        int GetPriority() const;
+        const glm::mat4 & GetCombineModelMatrix() const; 
 
         void SetObjectOption(unsigned int option);
         void ResetObjectOption(unsigned int option);
@@ -40,23 +33,16 @@ class SceneObject : public Subject<SceneObjectEvents>, Observer {
         unsigned int GetObjectOptions();
 
     private:
-        void SetKey(int key);
+        void ParentModelMatrixChange(const EventInfo & info);
         void CalculateModelMatrix();
-        void ParentModelMatrixChanged(const EventInfo & info);
+        void SetKey(int key);
 
         SceneObject * parent;
         int key;
         std::string name;     
         int priority;   
-        unsigned int object_options;
-
-        glm::mat4 model_matrix;
-        glm::mat4 parent_model_matrix;
         glm::mat4 combine_model_matrix;
-
-        std::vector<std::unique_ptr<SceneObject>> scene_objects;
-
-        std::vector<unsigned int> observer_ids;
+        unsigned int object_options;
 };
 
 #endif

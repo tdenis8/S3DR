@@ -12,7 +12,7 @@ inline unsigned ARRAY_SIZE(const T (&array)[size]) { return size; }
 #define INDICES_BUF     3
 
 TextureShellAdapter::TextureShellAdapter(TextureShellObject * texture_shell_object):
-	SceneObjectAdapter(texture_shell_object),
+	SceneObjectAdapter(*texture_shell_object),
     texture_shell_object(texture_shell_object),
     allow_render(true)
 {
@@ -101,7 +101,7 @@ void TextureShellAdapter::SelectionRender(std::function<void(int)> set_scene_obj
         return;
     }
     glBindVertexArray(vao_object);
-    set_scene_object_key(texture_shell_object->Key());
+    set_scene_object_key(texture_shell_object->GetKey());
     const std::vector<TextureShellEntry> & entries = texture_shell_object->TextureShellDataRef().entries;
     int entry = 0;
     for (auto iter = entries.begin(); iter != entries.end(); ++iter) {

@@ -152,7 +152,7 @@ void ModelAdapter::AttachtToSelectionRenderer(SceneObjectAdapter * scene_object_
 
 void ModelAdapter::DetachFromShellRenderer(ShellObject * shell_object_ptr){
 	for(auto it=scene_object_adapters.begin(); it!=scene_object_adapters.end(); ++it){
-		if((*it)->Key()==shell_object_ptr->Key()){
+		if((*it)->GetKey()==shell_object_ptr->GetKey()){
 			SceneObjectAdapter * scene_object_adapter_ptr = (*it).get();
 			DetachFromSelectionRenderer(scene_object_adapter_ptr);
 
@@ -168,7 +168,7 @@ void ModelAdapter::DetachFromShellRenderer(ShellObject * shell_object_ptr){
 
 void ModelAdapter::DetachFromTextureShellRenderer(TextureShellObject * texture_shell_object_ptr){
 	for(auto it=scene_object_adapters.begin(); it!=scene_object_adapters.end(); ++it){
-		if((*it)->Key()==texture_shell_object_ptr->Key()){
+		if((*it)->GetKey()==texture_shell_object_ptr->GetKey()){
 			SceneObjectAdapter * scene_object_adapter_ptr = (*it).get();
 
 			DetachFromSelectionRenderer(scene_object_adapter_ptr);
@@ -184,7 +184,7 @@ void ModelAdapter::DetachFromTextureShellRenderer(TextureShellObject * texture_s
 
 void ModelAdapter::DetachFromLineRenderer(LineObject * line_object_ptr){
 	for(auto it=scene_object_adapters.begin(); it!=scene_object_adapters.end(); ++it){
-		if((*it)->Key()==line_object_ptr->Key()){
+		if((*it)->GetKey()==line_object_ptr->GetKey()){
 			SceneObjectAdapter * scene_object_adapter_ptr = (*it).get();
 			DetachFromSelectionRenderer(scene_object_adapter_ptr);
 
@@ -200,7 +200,7 @@ void ModelAdapter::DetachFromLineRenderer(LineObject * line_object_ptr){
 
 void ModelAdapter::DetachFromPointRenderer(PointObject * point_object_ptr){
 	for(auto it=scene_object_adapters.begin(); it!=scene_object_adapters.end(); ++it){
-		if((*it)->Key()==point_object_ptr->Key()){
+		if((*it)->GetKey()==point_object_ptr->GetKey()){
 			SceneObjectAdapter * scene_object_adapter_ptr = (*it).get();
 			DetachFromSelectionRenderer(scene_object_adapter_ptr);
 			

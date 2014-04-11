@@ -128,7 +128,7 @@ void TransparencyRenderer::SetAlphaPA(float alpha){
 }
 
 void TransparencyRenderer::AttachShellAdapter(ShellAdapter * shell_adapter){
-	int priority = shell_adapter->Priority();
+	int priority = shell_adapter->GetPriority();
 	shell_adapters[priority].push_back(shell_adapter);
 }
 
@@ -153,8 +153,8 @@ void TransparencyRenderer::Render(const glm::mat4 & view, const glm::mat4 & proj
 	
  	glm::mat4 world_to_clip = projection * view;
 	for(auto shell_adapter: shell_adapters[priority]){
-		glm::mat4 model_to_clip_matrix = world_to_clip * shell_adapter->ModelMatrixRef();
-		glm::mat4 model_to_camera_matrix = view * shell_adapter->ModelMatrixRef();
+		glm::mat4 model_to_clip_matrix = world_to_clip * shell_adapter->GetModelMatrix();
+		glm::mat4 model_to_camera_matrix = view * shell_adapter->GetModelMatrix();
 		ActivateProgram(DDPPassType::INIT);
 		SetModelToClipMatrixPA(model_to_clip_matrix);
 		DeactivateProgram();

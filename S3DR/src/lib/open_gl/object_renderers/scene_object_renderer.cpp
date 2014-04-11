@@ -1,7 +1,5 @@
 #include "scene_object_renderer.hpp"
 
-#include <glm/gtc/type_ptr.hpp>
-
 SceneObjectRenderer::SceneObjectRenderer():
 	program(nullptr)
 {

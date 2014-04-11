@@ -6,21 +6,19 @@
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 
-#include <vector>
 #include <functional>
 
-class BaseObject;
-
-class SceneObjectAdapter {
+class SceneObjectAdapter: public Observer {
     public:
         SceneObjectAdapter()=delete;
-        SceneObjectAdapter(SceneObject * scene_object);
+        SceneObjectAdapter(SceneObject & scene_object);
         SceneObjectAdapter(const SceneObjectAdapter &)=delete;
+        SceneObjectAdapter & operator=(const SceneObjectAdapter &)=delete;
         virtual ~SceneObjectAdapter();
 
-        const glm::mat4 & ModelMatrixRef() const;
-        int Key() const;
-        int Priority() const;
+        const glm::mat4 & GetModelMatrix() const;
+        int GetKey() const;
+        int GetPriority() const;
 
         virtual void Render()=0;
         virtual void SelectionRender(std::function<void(int)> set_scene_object_key,
@@ -32,9 +30,7 @@ class SceneObjectAdapter {
     private:
         void SceneObjectDataUpdate(const EventInfo & info);
 
-        SceneObject * scene_object;
-
-        std::vector<unsigned int> observer_ids;
+        SceneObject & scene_object;
 };
 
 #endif

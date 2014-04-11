@@ -30,14 +30,14 @@ void LineRenderer::SetModelToClipMatrixPA(const glm::mat4 & model_to_clip_matrix
 }
 
 void LineRenderer::AttachLineAdapter(LineAdapter * line_adapter){
-	int priority = line_adapter->Priority();
+	int priority = line_adapter->GetPriority();
 	line_adapters[priority].push_back(line_adapter);
 }
 
 void LineRenderer::DetachLineAdapter(LineAdapter * line_adapter){
-	int priority = line_adapter->Priority();
+	int priority = line_adapter->GetPriority();
 	for(auto it=line_adapters[priority].begin(); it!=line_adapters[priority].end(); it++){
-		if((*it)->Key() == line_adapter->Key()){
+		if((*it)->GetKey() == line_adapter->GetKey()){
 			line_adapters[priority].erase(it);
 			break;
 		}
@@ -58,7 +58,7 @@ void LineRenderer::Render(const glm::mat4 & view, const glm::mat4 & projection, 
  	ActivateProgram();
  	glm::mat4 world_to_clip = projection * view;
 	for(auto line_adapter: line_adapters[priority]){
-		SetModelToClipMatrixPA(world_to_clip * line_adapter->ModelMatrixRef());
+		SetModelToClipMatrixPA(world_to_clip * line_adapter->GetModelMatrix());
 		line_adapter->Render();
 	}
 	DeactivateProgram();

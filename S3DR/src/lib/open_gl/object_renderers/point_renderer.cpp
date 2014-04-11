@@ -30,14 +30,14 @@ void PointRenderer::SetModelToClipMatrixPA(const glm::mat4 & model_to_clip_matri
 }
 
 void PointRenderer::AttachPointAdapter(PointAdapter * point_adapter){
-	int priority = point_adapter->Priority();
+	int priority = point_adapter->GetPriority();
 	point_adapters[priority].push_back(point_adapter);
 }
 
 void PointRenderer::DetachPointAdapter(PointAdapter * point_adapter){
-	int priority = point_adapter->Priority();
+	int priority = point_adapter->GetPriority();
 	for(auto it=point_adapters[priority].begin(); it!=point_adapters[priority].end(); it++){
-		if((*it)->Key() == point_adapter->Key()){
+		if((*it)->GetKey() == point_adapter->GetKey()){
 			point_adapters[priority].erase(it);
 			break;
 		}
@@ -58,7 +58,7 @@ void PointRenderer::Render(const glm::mat4 & view, const glm::mat4 & projection,
  	ActivateProgram();
  	glm::mat4 world_to_clip = projection * view;
 	for(auto point_adapter: point_adapters[priority]){
-		SetModelToClipMatrixPA(world_to_clip * point_adapter->ModelMatrixRef());
+		SetModelToClipMatrixPA(world_to_clip * point_adapter->GetModelMatrix());
 		point_adapter->Render();
 	}
 	DeactivateProgram();

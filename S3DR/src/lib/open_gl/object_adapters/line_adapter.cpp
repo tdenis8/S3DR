@@ -8,7 +8,7 @@ inline unsigned ARRAY_SIZE(const T (&array)[size]) { return size; }
 #define INDICES_BUF     2
 
 LineAdapter::LineAdapter(LineObject * line_object):
-	SceneObjectAdapter(line_object),
+	SceneObjectAdapter(*line_object),
     line_object(line_object)
 {
 	glGenVertexArrays(1, &vao_object);
@@ -64,7 +64,7 @@ void LineAdapter::SelectionRender(std::function<void(int)> set_scene_object_key,
                                   std::function<void(int)> set_entry_index)
 {
     glBindVertexArray(vao_object);
-    set_scene_object_key(line_object->Key());
+    set_scene_object_key(line_object->GetKey());
     const std::vector<LineEntry> & entries = line_object->LineDataRef().entries;
     int entry = 0;
     for (auto iter = entries.begin(); iter != entries.end(); ++iter) {

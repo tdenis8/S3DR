@@ -41,14 +41,14 @@ void SelectionRenderer::SetEntryIndexPA(int entry_index){
 }
 
 void SelectionRenderer::AttachSceneObjectAdapter(SceneObjectAdapter * scene_object_adapter){
-	int priority = scene_object_adapter->Priority();
+	int priority = scene_object_adapter->GetPriority();
 	scene_object_adapters[priority].push_back(scene_object_adapter);
 } 
 
 void SelectionRenderer::DetachSceneObjectAdapter(SceneObjectAdapter * scene_object_adapter){
-	int priority = scene_object_adapter->Priority();
+	int priority = scene_object_adapter->GetPriority();
 	for(auto it=scene_object_adapters[priority].begin(); it!=scene_object_adapters[priority].end(); it++){
-		if((*it)->Key() == scene_object_adapter->Key()){
+		if((*it)->GetKey() == scene_object_adapter->GetKey()){
 			scene_object_adapters[priority].erase(it);
 			break;
 		}
@@ -72,7 +72,7 @@ void SelectionRenderer::Render(const glm::mat4 & view, const glm::mat4 & project
 	glm::mat4 world_to_clip = projection * view;
  	ActivateProgram();
 	for(auto scene_object_adapter: scene_object_adapters[priority]){
-		SetModelToClipMatrixPA(world_to_clip * scene_object_adapter->ModelMatrixRef());
+		SetModelToClipMatrixPA(world_to_clip * scene_object_adapter->GetModelMatrix());
 		scene_object_adapter->SelectionRender(set_scene_object_key, set_entry_index);
 	}
 	DeactivateProgram();

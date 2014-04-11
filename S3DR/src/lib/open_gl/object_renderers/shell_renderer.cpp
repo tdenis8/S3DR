@@ -50,14 +50,14 @@ void ShellRenderer::SetMaterialStatusPA(int status){
 }
 
 void ShellRenderer::AttachShellAdapter(ShellAdapter * shell_adapter){
-	int priority = shell_adapter->Priority();
+	int priority = shell_adapter->GetPriority();
 	shell_adapters[priority].push_back(shell_adapter);
 }
 
 void ShellRenderer::DetachShellAdapter(ShellAdapter * shell_adapter){
-	int priority = shell_adapter->Priority();
+	int priority = shell_adapter->GetPriority();
 	for(auto it=shell_adapters[priority].begin(); it!=shell_adapters[priority].end(); it++){
-		if((*it)->Key() == shell_adapter->Key()){
+		if((*it)->GetKey() == shell_adapter->GetKey()){
 			shell_adapters[priority].erase(it);
 			break;
 		}
@@ -77,9 +77,9 @@ void ShellRenderer::Render(const glm::mat4 & view, const glm::mat4 & projection,
  	ActivateProgram();
  	SetCameraToClipMatrixPA(projection);
 	for(auto shell_adapter: shell_adapters[priority]){
-		glm::mat4 model_to_camera_matrix = view * shell_adapter->ModelMatrixRef();
+		glm::mat4 model_to_camera_matrix = view * shell_adapter->GetModelMatrix();
 		SetModelToCameraMatrixPA(model_to_camera_matrix);
-		glm::mat3 normMatrix(view*shell_adapter->ModelMatrixRef());
+		glm::mat3 normMatrix(view*shell_adapter->GetModelMatrix());
 		normMatrix = glm::transpose(glm::inverse(normMatrix));
 		SetNormalModelToCameraMatrixPA(normMatrix);
 

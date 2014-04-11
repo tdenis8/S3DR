@@ -9,7 +9,7 @@ inline unsigned ARRAY_SIZE(const T (&array)[size]) { return size; }
 #define INDICES_BUF     3
 
 ShellAdapter::ShellAdapter(ShellObject * shell_object):
-	SceneObjectAdapter(shell_object),
+	SceneObjectAdapter(*shell_object),
     shell_object(shell_object)
 {
 	glGenVertexArrays(1, &vao_object);
@@ -70,7 +70,7 @@ void ShellAdapter::SelectionRender(std::function<void(int)> set_scene_object_key
                                    std::function<void(int)> set_entry_index)
 {
     glBindVertexArray(vao_object);
-    set_scene_object_key(shell_object->Key());
+    set_scene_object_key(shell_object->GetKey());
     const std::vector<ShellEntry> & entries = shell_object->ShellDataRef().entries;
     int entry = 0;
     for (auto iter = entries.begin(); iter != entries.end(); ++iter) {

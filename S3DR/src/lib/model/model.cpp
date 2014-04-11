@@ -27,7 +27,7 @@ void Model::RemoveSceneObject(const std::shared_ptr<SceneObject> & scene_object)
         return;
     }
     for(auto it=scene_objects.begin(); it!=scene_objects.end(); ++it){
-        if((*it)->Key() == scene_object->Key()){
+        if((*it)->GetKey() == scene_object->GetKey()){
             Emit(ModelEvents::REMOVE_SCENE_OBJECT, SceneObjectInfo(scene_object.get()));
             scene_objects.erase(it);
             break;
@@ -52,7 +52,7 @@ std::vector<SceneObject *> Model::SceneObjects(){
 
 SceneObject * Model::SceneObjectPtr(int key){
     for(auto & scene_object_sptr: scene_objects){
-        if(scene_object_sptr->Key() == key){
+        if(scene_object_sptr->GetKey() == key){
             return scene_object_sptr.get();
         }
     }

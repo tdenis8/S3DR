@@ -1,11 +1,14 @@
 # S3DR - Small 3D renderer
 # ========================
 
+PROJECT(S3DR)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
 # ========================
 # S3DR lib
 # ========================
 # Set source variables
-SET(S3DR_LIB_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/lib)
+SET(S3DR_LIB_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 SET(S3DR_LIB_SCR_AUXILIARY ${S3DR_LIB_SRC_DIR}/auxiliary/geometry_object.cpp
                            ${S3DR_LIB_SRC_DIR}/auxiliary/geometry_utils.cpp)
@@ -63,43 +66,41 @@ SET(S3DR_LIB_SRC_ALL ${S3DR_LIB_SCR_AUXILIARY}
                      ${S3DR_LIB_SCR_VIEW})
 
 # Set include directories
-SET(S3DR_LIB_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/lib)
+SET(S3DR_LIB_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 INCLUDE_DIRECTORIES(${S3DR_LIB_INC_DIR})
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/Utility/src/lib)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/Utility/lib)
 
 # Build library
 ADD_LIBRARY(S3DR STATIC ${S3DR_LIB_SRC_ALL})
-
+TARGET_LINK_LIBRARIES(S3DR Utility)
+#ADD_DEPENDENCIES(S3DR Utility)
 
 # ========================
 # S3DR tests
 # ========================
 # Set source variables
-SET(S3DR_TESTS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/tests)
+SET(S3DR_TESTS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
-SET(S3DR_TEST_SRC ${S3DR_TESTS_SRC_DIR}/auxiliary_tests.cpp  
+SET(S3DR_TEST_SRC ${S3DR_TESTS_SRC_DIR}/auxiliary_tests.cpp
+                  ${S3DR_TESTS_SRC_DIR}/model_tests.cpp    
                   ${S3DR_TESTS_SRC_DIR}/main.cpp)
-
-SET(S3DR_TEST_SRC_MISC ${S3DR_TESTS_SRC_DIR}/misc/3D_shapes.cpp  
-                       ${S3DR_TESTS_SRC_DIR}/misc/assimp_mesh_loader.cpp  
-                       ${S3DR_TESTS_SRC_DIR}/misc/combined_operator.cpp  
-                       ${S3DR_TESTS_SRC_DIR}/misc/open_gl_context.cpp 
-                       ${S3DR_TESTS_SRC_DIR}/misc/view_window.cpp)
 
 SET(S3DR_TESTS_SRC_ALL ${S3DR_TEST_SRC}
                        ${S3DR_TEST_SRC_MISC})
 
 # Set include directories
-SET(S3DR_TESTS_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/tests)
+SET(S3DR_TESTS_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
 INCLUDE_DIRECTORIES(${S3DR_TESTS_INC_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/Asset/lib)
 
 # Build executabele
 ADD_EXECUTABLE(S3DR_TESTS ${S3DR_TESTS_SRC_ALL})
 
-TARGET_LINK_LIBRARIES(S3DR_TESTS SOIL 
+TARGET_LINK_LIBRARIES(S3DR_TESTS SOIL
                                  S3DR 
+                                 Asset
                                  Utility
                                  GL 
                                  GLEW 

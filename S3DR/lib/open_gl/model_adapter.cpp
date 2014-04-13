@@ -9,6 +9,7 @@
 #include "scene_manager.hpp"
 
 ModelAdapter::ModelAdapter(Model & model, SceneManager & scene_manager):
+	Observer(),
  	model(model),
  	scene_manager(scene_manager)
 {
@@ -17,23 +18,21 @@ ModelAdapter::ModelAdapter(Model & model, SceneManager & scene_manager):
 		NewSceneObject(SceneObjectInfo(scene_object_ptr));
 	}
 
-	auto id = model.Observe(ModelEvents::NEW_SCENE_OBJECT, 
-							std::bind(&ModelAdapter::NewSceneObject, this, std::placeholders::_1));
-	observer_ids.push_back(id);
+	model.Observe(ModelEvents::NEW_SCENE_OBJECT, 
+				  std::bind(&ModelAdapter::NewSceneObject, this, std::placeholders::_1),
+				  this);
 
-	id = model.Observe(ModelEvents::REMOVE_SCENE_OBJECT, 
-					   std::bind(&ModelAdapter::RemoveSceneObject, this, std::placeholders::_1));
-	observer_ids.push_back(id);
+	model.Observe(ModelEvents::REMOVE_SCENE_OBJECT, 
+				  std::bind(&ModelAdapter::RemoveSceneObject, this, std::placeholders::_1),
+				  this);
 
-	id = model.Observe(ModelEvents::RESET_MODEL, 
-					   std::bind(&ModelAdapter::ResetModel, this, std::placeholders::_1));
-	observer_ids.push_back(id);
+	model.Observe(ModelEvents::RESET_MODEL, 
+				  std::bind(&ModelAdapter::ResetModel, this, std::placeholders::_1),
+				  this);
 }
 
 ModelAdapter::~ModelAdapter(){
-	for(auto id: observer_ids){
-		model.RemoveObserver(id);
-	}
+	model.RemoveObservers(this);
 }
 
 void ModelAdapter::NewSceneObject(const EventInfo & info){

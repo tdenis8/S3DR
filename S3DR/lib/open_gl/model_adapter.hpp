@@ -13,7 +13,7 @@ class PointObject;
 class SceneManager;
 class SceneObjectAdapter;
 
-class ModelAdapter {
+class ModelAdapter: Observer {
     public:
         ModelAdapter(Model & model, SceneManager & scene_manager);
         virtual ~ModelAdapter();
@@ -39,7 +39,6 @@ class ModelAdapter {
         SceneManager & scene_manager;
 
     	std::vector<std::unique_ptr<SceneObjectAdapter>> scene_object_adapters; 
-        std::vector<unsigned int> observer_ids;
 };
 
 #endif

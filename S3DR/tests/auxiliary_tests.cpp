@@ -3,13 +3,13 @@
 #include "utility/custom_exp.hpp"
 #include "utility/math_utils.hpp"
 
+#include "asset/view_window.hpp"
+#include "asset/3D_shapes.hpp"
+
 #include "model/model.hpp"
 #include "model/shell_object.hpp"
 #include "model/line_object.hpp"
 #include "model/point_object.hpp"
-
-#include "misc/view_window.hpp"
-#include "misc/3D_shapes.hpp"
 
 #include <glm/glm.hpp>
 

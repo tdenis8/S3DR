@@ -30,7 +30,7 @@ ADD_LIBRARY(Asset STATIC ${ASSET_LIB_SRC_ALL})
 TARGET_LINK_LIBRARIES(Asset Utility)
 TARGET_LINK_LIBRARIES(Asset S3DR)
 TARGET_LINK_LIBRARIES(Asset assimp
-							glfw)
+							glfw3 Xrandr Xxf86vm rt)
 #ADD_DEPENDENCIES(Asset Utility)
 #ADD_DEPENDENCIES(Asset S3DR)
 

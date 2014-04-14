@@ -61,7 +61,7 @@ SceneManager::~SceneManager(){
 void SceneManager::InitOpenGL(){
 	// Initialize GLEW
 	if (glewInit() != GLEW_OK) {
-	    std::string error("*** Failed to initialize GLEW.");
+	    std::string error = std::string("*** Failed to initialize GLEW");
 	    throw CustomExp(error);
 	}
 

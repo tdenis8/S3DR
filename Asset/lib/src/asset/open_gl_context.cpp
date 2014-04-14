@@ -2,151 +2,114 @@
 
 #include "utility/custom_exp.hpp"
 
-#include <string>
-#include <GL/glew.h>
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <string>
 
-static OpenGLContext * _context = NULL;
 
-static void MouseButtonCB(int button, int state){
-	_context->MouseButtonCallback(button, state);
+/// Callback functions
+void ErrorCallback(int error, const char* description){
+    std::cerr<<"GLFW error: "<<description<<std::endl;
 }
 
-static void MousePosCB(int x, int y){
-	_context->MousePosCallback(x, y);
+void MouseButtonCallback(GLFWwindow * window, int button, int action, int mods){
+	OpenGLContext * open_gl_context = static_cast<OpenGLContext*>(glfwGetWindowUserPointer(window));
+	if(!open_gl_context->mouse_button_callback) {
+		return;
+	}
+	open_gl_context->mouse_button_callback(button, action);
 }
 
-static void MouseWheelCB(int delta){
-	_context->MouseWheelCallback(delta);
+void MousePosCallback(GLFWwindow * window, double x, double y){
+	OpenGLContext * open_gl_context = static_cast<OpenGLContext*>(glfwGetWindowUserPointer(window));
+	if(!open_gl_context->mouse_pos_callback) {
+		return;
+	}
+	open_gl_context->mouse_pos_callback(x, y);
 }
 
-static void KeyboardCB(int key, int state){
-	_context->KeyboardCallback(key, state);
+void MouseWheelCallback(GLFWwindow * window, double xoffset, double yoffset){
+	OpenGLContext * open_gl_context = static_cast<OpenGLContext*>(glfwGetWindowUserPointer(window));
+	if(!open_gl_context->mouse_wheel_callback) {
+		return;
+	}
+	open_gl_context->mouse_wheel_callback(yoffset);
 }
 
-static void WindowSizeCB(int width, int height){
-	_context->WindowSizeCallback(width, height);
+void KeyboardCallback(GLFWwindow * window, int key, int scancode, int action, int mods){
+	OpenGLContext * open_gl_context = static_cast<OpenGLContext*>(glfwGetWindowUserPointer(window));
+	if(!open_gl_context->keyboard_callback) {
+		return;
+	}
+	open_gl_context->keyboard_callback(key, action);
 }
 
-static void InitGLFW(unsigned int width, unsigned int height,const char* title){
-	// Initialise GLFW
+void WindowSizeCallback(GLFWwindow * window, int width, int height){
+	OpenGLContext * open_gl_context = static_cast<OpenGLContext*>(glfwGetWindowUserPointer(window));
+	if(!open_gl_context->windows_size_callback) {
+		return;
+	}
+	open_gl_context->windows_size_callback(width, height);
+}
+
+
+/// OpenGLContext class
+OpenGLContext::OpenGLContext():
+	OpenGLContext("OpenGLContext")
+{ 
+
+}
+
+OpenGLContext::OpenGLContext(const std::string & title):
+	glfw_window(nullptr)
+{
+	InitGLFW(800, 600, title);
+	InitGLFWCallbacks();
+}
+
+OpenGLContext::~OpenGLContext() { 
+	if(glfw_window){
+		glfwDestroyWindow(glfw_window);
+	}
+	glfwTerminate();
+}
+
+void OpenGLContext::InitGLFW(unsigned int width, unsigned int height, const std::string & title){
+	glfwSetErrorCallback(ErrorCallback);
+
 	if( !glfwInit() ){
 	    std::string error("*** Failed to initialize GLFW.");
 	    throw CustomExp(error);
 	}
 
-	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
-	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_SAMPLES, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// Open a window and create its OpenGL context
-	if( !glfwOpenWindow( width, height, 0,0,0,0, 32,0, GLFW_WINDOW ) )
-	{
+	glfw_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+	if(!glfw_window){
 		std::string error("*** Failed to open GLFW window.");
-		glfwTerminate();
 		throw CustomExp(error);
 	}
-	
-	glfwSetWindowTitle(title);
 
+	glfwMakeContextCurrent(glfw_window) ;
 }
 
-static void RegisterGLFWCallbacks(OpenGLContext * context){
-	if (!context) {
-	    std::string error("*** Failed to set GLFW callbacks.");
-	    throw CustomExp(error);
-    }
-
-    _context = context;
-
-	glfwSetMouseButtonCallback(MouseButtonCB);
-	glfwSetMousePosCallback(MousePosCB);
-	glfwSetMouseWheelCallback(MouseWheelCB);
-	glfwSetKeyCallback(KeyboardCB);
-	glfwSetWindowSizeCallback(WindowSizeCB);
-}
-
-static void GLFWTerminate(){
-	glfwTerminate();
-}
-
-///**********************************************************
-/// OpenGLContext class
-///**********************************************************
-OpenGLContext::OpenGLContext():
-	previous_delta(0)
-{ 
-	InitGLFW(800, 600, "Fenix3D tests");
-	RegisterGLFWCallbacks(this);
-}
-
-OpenGLContext::OpenGLContext(const std::string & title):
-	previous_delta(0)
-{
-	InitGLFW(800, 600, title.c_str());
-	RegisterGLFWCallbacks(this);
-}
-
-OpenGLContext::~OpenGLContext() { 
-	GLFWTerminate();
+void OpenGLContext::InitGLFWCallbacks(){
+	glfwSetWindowUserPointer(glfw_window, this);
+	glfwSetMouseButtonCallback(glfw_window, MouseButtonCallback);
+	glfwSetCursorPosCallback(glfw_window, MousePosCallback);
+	glfwSetScrollCallback(glfw_window, MouseWheelCallback);
+	glfwSetKeyCallback(glfw_window, KeyboardCallback);
+	glfwSetWindowSizeCallback(glfw_window, WindowSizeCallback);
 }
 
 void OpenGLContext::Loop(){
-	double last_time = glfwGetTime();
-	int number_of_frames = 0;
-
-	while(glfwGetWindowParam(GLFW_OPENED)){
+	while(!glfwWindowShouldClose(glfw_window)){
 		redraw_callback();
-		glfwSwapBuffers();
-
-		double current_time = glfwGetTime();
-		number_of_frames++;
-		// Print every five seconds
-		if ( current_time - last_time >= 1.0 ){ 
-			// printf and reset timer
-			std::cout<<1000.0/double(number_of_frames)<<" ms/frame"<<std::endl;
-			number_of_frames = 0;
-			last_time += 1.0;
-		}
+        glfwSwapBuffers(glfw_window);
+        glfwPollEvents();
 	}
-}
-
-void OpenGLContext::MouseButtonCallback(int button, int state){
-	if(!mouse_button_callback) {
-		return;
-	}
-	mouse_button_callback(button, state);
-}
-
-void OpenGLContext::MousePosCallback(int x, int y){
-	if(!mouse_pos_callback) {
-		return;
-	}
-	mouse_pos_callback(x, y);
-}
-
-void OpenGLContext::MouseWheelCallback(int delta){
-	if(!mouse_wheel_callback) {
-		return;
-	}
-
-	mouse_wheel_callback(delta-previous_delta);
-	previous_delta = delta;
-}
-
-void OpenGLContext::KeyboardCallback(int key, int state){
-	if(!keyboard_callback) {
-		return;
-	}
-	keyboard_callback(key, state);
-}
-
-void OpenGLContext::WindowSizeCallback(int width, int height){
-	if(!windows_size_callback) {
-		return;
-	}
-	windows_size_callback(width, height);
 }

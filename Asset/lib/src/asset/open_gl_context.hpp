@@ -5,6 +5,8 @@
 #include <functional>
 #include <string>
 
+class GLFWwindow;
+
 class OpenGLContext{
 	public:
 		OpenGLContext();
@@ -42,14 +44,18 @@ class OpenGLContext{
      		windows_size_callback = std::forward<T>(func);
      	}
 
-     	void MouseButtonCallback(int button, int state);
-     	void MousePosCallback(int x, int y);
-     	void MouseWheelCallback(int delta);
-     	void KeyboardCallback(int key, int state);
-     	void WindowSizeCallback(int width, int height);
-
 	private:
+        void InitGLFW(unsigned int width, unsigned int height, const std::string & title);
+        void InitGLFWCallbacks();
 		void Loop();
+
+        friend void MouseButtonCallback(GLFWwindow * window, int button, int action, int mods);
+        friend void MousePosCallback(GLFWwindow * window, double x, double y);
+        friend void MouseWheelCallback(GLFWwindow *window, double xoffset, double yoffset);
+        friend void KeyboardCallback(GLFWwindow * window, int key, int scancode, int action, int mods);
+        friend void WindowSizeCallback(GLFWwindow * window, int width, int height);
+
+        GLFWwindow * glfw_window;
 
 		std::function<void(void)> redraw_callback;
 		std::function<void(int,int)> mouse_button_callback;
@@ -57,8 +63,6 @@ class OpenGLContext{
 		std::function<void(float)> mouse_wheel_callback;
 		std::function<void(int,int)> keyboard_callback;
 		std::function<void(int,int)> windows_size_callback;
-
-        int previous_delta;
 };
 
 #endif

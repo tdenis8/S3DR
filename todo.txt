@@ -12,6 +12,10 @@ TODO:
 5  - Merge camera and projection in one class 
 6  - Camera and Light class should inherit BaseScene object (depends on 2,3) 
 7  - Things from S3DR/tests/misc should be moved to the utility lib
+8  + Migrate build system to Cmake 
+9  - Update CMake files to check dependencies
+10 - Migrete from GLFW2 to GLFW3
+11 - Migrate from SOIL to ???
 
 ==================================
 BUGS:

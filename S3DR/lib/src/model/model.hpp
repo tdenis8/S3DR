@@ -4,7 +4,6 @@
 #include "utility/subject.hpp"
 
 #include <memory>
-#include <stack>
 #include <vector>
 #include <string>
 
@@ -20,7 +19,7 @@ class SceneObjectInfo: public EventInfo {
         SceneObjectInfo(SceneObject * object) : 
             EventInfo(), object(object) {}
         
-        SceneObject * SceneObjectPtr() const { 
+        SceneObject * GetSceneObject() const { 
             return object;
         }
 
@@ -37,20 +36,21 @@ class Model: public Subject<ModelEvents> {
         Model & operator=(const Model &)=delete;
         ~Model();
 
-        int InsertSceneObject(const std::shared_ptr<SceneObject> & scene_object);
-        void RemoveSceneObject(const std::shared_ptr<SceneObject> & scene_object);
+        // NOTE: this method move ownership of scene_object to model
+        int InsertSceneObject(std::unique_ptr<SceneObject> & scene_object);
+        void RemoveSceneObject(int key);
 
         void Reset();
 
-        std::vector<SceneObject *> SceneObjects();
-        SceneObject * SceneObjectPtr(int key);
+        std::vector<SceneObject *> GetSceneObjects();
+        SceneObject * GetSceneObject(int key);
 
         const std::string & Name() const;
 
     private:
         unsigned int id_counter;
         std::string name;
-        std::vector<std::shared_ptr<SceneObject>> scene_objects;
+        std::vector<std::unique_ptr<SceneObject>> scene_objects;
 };
 
 #endif

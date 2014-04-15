@@ -14,7 +14,8 @@ SET(S3DR_LIB_SCR_AUXILIARY ${S3DR_LIB_SRC_DIR}/auxiliary/geometry_object.cpp
                            ${S3DR_LIB_SRC_DIR}/auxiliary/geometry_utils.cpp)
 
 SET(S3DR_LIB_SCR_MODEL ${S3DR_LIB_SRC_DIR}/model/line_object.cpp  
-                       ${S3DR_LIB_SRC_DIR}/model/model.cpp  
+                       ${S3DR_LIB_SRC_DIR}/model/model.cpp
+                       ${S3DR_LIB_SRC_DIR}/model/model_handler.cpp 
                        ${S3DR_LIB_SRC_DIR}/model/point_object.cpp  
                        ${S3DR_LIB_SRC_DIR}/model/scene_object.cpp  
                        ${S3DR_LIB_SRC_DIR}/model/shell_object.cpp 

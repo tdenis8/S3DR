@@ -35,7 +35,7 @@ enum class ShellOption: int {
 class ShellObject : public SceneObject {
     public:
         ShellObject()=delete;
-        explicit ShellObject(SceneObject * parent, std::string name, int priority = 1);
+        explicit ShellObject(SceneObject * parent, std::string name, int priority);
         ShellObject(const ShellObject &)=delete;
         ShellObject & operator=(const ShellObject &)=delete;
         virtual ~ShellObject();

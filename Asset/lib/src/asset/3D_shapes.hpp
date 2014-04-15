@@ -9,11 +9,11 @@
 ///
 /// ...
 ///
+/// \param  reference to a ShellObject whitch will hold the generated sphere
 /// \param  center of the sphere 
 /// \param  radius of the sphere
-/// \param  reference to a ShellObject whitch will hold the generated sphere
-void GenerateSphereData(const glm::vec3 & center, 
-                        float radius, 
-					    const std::shared_ptr<ShellObject> & shell_object);
+void GenerateSphere(ShellObject & shell_object,
+					const glm::vec3 & center, 
+                    float radius);
 
 #endif

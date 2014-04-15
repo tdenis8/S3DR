@@ -64,7 +64,7 @@ int SelectOperator::OnNoButtonDownAndMove(const MouseEventInfo & info){
 		//Unhighlight previously highlighted object
 		if(highlighted_scene_object_key){
 			Model * model_ptr = view.ModelPtr();
-			SceneObject * scene_object_ptr = model_ptr->SceneObjectPtr(highlighted_scene_object_key);
+			SceneObject * scene_object_ptr = model_ptr->GetSceneObject(highlighted_scene_object_key);
 			if(ShellObject * shell_object_ptr = dynamic_cast<ShellObject *>(scene_object_ptr)){
 				shell_object_ptr->Highlight(false);
 				highlighted_scene_object_key = 0;
@@ -73,7 +73,7 @@ int SelectOperator::OnNoButtonDownAndMove(const MouseEventInfo & info){
 		//Highlight new object
 		if(scene_object_key){
 			Model * model_ptr = view.ModelPtr();
-			SceneObject * scene_object_ptr = model_ptr->SceneObjectPtr(scene_object_key);
+			SceneObject * scene_object_ptr = model_ptr->GetSceneObject(scene_object_key);
 			if(ShellObject * shell_object_ptr = dynamic_cast<ShellObject *>(scene_object_ptr)){
 				shell_object_ptr->Highlight(true);
 				highlighted_scene_object_key = scene_object_key;

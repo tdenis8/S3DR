@@ -3,6 +3,6 @@
 
 int main(int argc, char const *argv[]){
 	RunModelTests();
-	RunAuxiliaryTests();
+	// RunAuxiliaryTests();
 	return 0;
 }

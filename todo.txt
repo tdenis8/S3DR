@@ -14,8 +14,9 @@ TODO:
 7  - Things from S3DR/tests/misc should be moved to the utility lib
 8  + Migrate build system to Cmake 
 9  - Update CMake files to check dependencies
-10 - Migrete from GLFW2 to GLFW3
+10 + Migrete from GLFW2 to GLFW3
 11 - Migrate from SOIL to ???
+12 - Update ASSIMP to latest version 
 
 ==================================
 BUGS:

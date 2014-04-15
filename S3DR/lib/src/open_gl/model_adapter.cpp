@@ -13,7 +13,7 @@ ModelAdapter::ModelAdapter(Model & model, SceneManager & scene_manager):
  	model(model),
  	scene_manager(scene_manager)
 {
-	std::vector<SceneObject *> scene_objects = model.SceneObjects();
+	std::vector<SceneObject *> scene_objects = model.GetSceneObjects();
 	for(auto scene_object_ptr: scene_objects){
 		NewSceneObject(SceneObjectInfo(scene_object_ptr));
 	}
@@ -37,7 +37,7 @@ ModelAdapter::~ModelAdapter(){
 
 void ModelAdapter::NewSceneObject(const EventInfo & info){
 	const SceneObjectInfo & so_info = dynamic_cast<const SceneObjectInfo &>(info);
-	SceneObject * scene_object = so_info.SceneObjectPtr();
+	SceneObject * scene_object = so_info.GetSceneObject();
 
 	if(ShellObject * shell_object_ptr = dynamic_cast<ShellObject *>(scene_object)){
 		if(shell_object_ptr->TestObjectOption(static_cast<unsigned int>(ShellOption::Transparency))){
@@ -64,7 +64,7 @@ void ModelAdapter::NewSceneObject(const EventInfo & info){
 
 void ModelAdapter::RemoveSceneObject(const EventInfo & info){
 	const SceneObjectInfo & so_info = dynamic_cast<const SceneObjectInfo &>(info);
-	SceneObject * scene_object = so_info.SceneObjectPtr();
+	SceneObject * scene_object = so_info.GetSceneObject();
 
 	if(ShellObject * shell_object_ptr = dynamic_cast<ShellObject *>(scene_object)){
 		if(shell_object_ptr->TestObjectOption(static_cast<unsigned int>(ShellOption::Transparency))){

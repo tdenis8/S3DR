@@ -9,7 +9,7 @@
 #include "open_gl_context.hpp"
 
 #include <memory>
-#include <iostream>
+
 void ViewWindow(Model * model, const std::string & title) {
         OpenGLContext gl_context(title);
         std::unique_ptr<View> view{new View()};

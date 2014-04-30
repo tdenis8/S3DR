@@ -29,6 +29,12 @@ int ModelHandler::GenerateShellObject(SceneObject * parent, std::string name, in
 	return key;
 }
 
+int ModelHandler::GenerateTextureShellObject(SceneObject * parent, std::string name, int priority){
+	std::unique_ptr<SceneObject> scene_object(new TextureShellObject(parent, name, priority));
+	int key = model->InsertSceneObject(scene_object);
+	return key;
+}
+
 int ModelHandler::GenerateLineObject(SceneObject * parent, std::string name, int priority){
 	std::unique_ptr<SceneObject> scene_object(new LineObject(parent, name, priority));
 	int key = model->InsertSceneObject(scene_object);
@@ -52,5 +58,32 @@ ShellObject & ModelHandler::GetShellObject(int id) const {
 		return *shell_object_ptr;
 	}
     std::string error("*** S3DR error: wrong ShellObject key.");
+    throw CustomExp(error);
+}
+
+TextureShellObject & ModelHandler::GetTextureShellObject(int id) const {
+	SceneObject * scene_object_ptr =  model->GetSceneObject(id);
+	if(TextureShellObject * shell_object_ptr = dynamic_cast<TextureShellObject *>(scene_object_ptr)){
+		return *shell_object_ptr;
+	}
+    std::string error("*** S3DR error: wrong TextureShellObject key.");
+    throw CustomExp(error);
+}
+
+LineObject & ModelHandler::GetLineObject(int id) const {
+	SceneObject * scene_object_ptr =  model->GetSceneObject(id);
+	if(LineObject * line_object_ptr = dynamic_cast<LineObject *>(scene_object_ptr)){
+		return *line_object_ptr;
+	}
+    std::string error("*** S3DR error: wrong LineObject key.");
+    throw CustomExp(error);
+}
+
+PointObject & ModelHandler::GetPointObject(int id) const {
+	SceneObject * scene_object_ptr =  model->GetSceneObject(id);
+	if(PointObject * point_object_ptr = dynamic_cast<PointObject *>(scene_object_ptr)){
+		return *point_object_ptr;
+	}
+    std::string error("*** S3DR error: wrong PointObject key.");
     throw CustomExp(error);
 }

@@ -1,18 +1,17 @@
 #include "model_tests.hpp"
 
-#include "utility/custom_exp.hpp"
 #include "utility/math_utils.hpp"
-
-#include "asset/view_window.hpp"
 #include "asset/3D_shapes.hpp"
-
+#include "asset/assimp_mesh_loader.hpp"
 #include "model/model_handler.hpp"
+
+#include "misc.hpp"
 
 #include <memory>
 #include <vector>
 #include <iostream>
 
-bool InsertShell_1(){
+bool TestShell_1(){
     std::unique_ptr<ModelHandler> model_handler(new ModelHandler("Model1")); 
 
     int id = model_handler->GenerateShellObject(nullptr, "Shell1");
@@ -35,44 +34,112 @@ bool InsertShell_1(){
 
     shell_object.AppendData(points, colors, indices);
 
-    try{
-        ViewWindow(&model_handler->GetModel(), std::string(__FUNCTION__));
-    }
-    catch(CustomExp e){
-        std::cerr<<"*** Test "<<std::string(__FUNCTION__)<<" -> Failed "<<std::endl;
-        std::cerr<<e.what()<<std::endl<<std::endl;
-        return false;
-    }
-    std::cout<<"*** Test "<<std::string(__FUNCTION__)<<" -> Visual test "<<std::endl;
-    return true;
+    return RunWithinTestEnv(&model_handler->GetModel(), std::string(__FUNCTION__));
 }
 
-bool InsertShell_2(){
+bool TestShell_2(){
     std::unique_ptr<ModelHandler> model_handler(new ModelHandler("Model1")); 
 
     int id = model_handler->GenerateShellObject(nullptr, "Shell2");
     ShellObject & shell_object = model_handler->GetShellObject(id);
 
-    GenerateSphere(shell_object, glm::vec3(5,5,5), 2.4);
+    {
+        std::vector<glm::vec3>  points;
+        std::vector<glm::ivec3>  indices;
+        GenerateSphere(glm::vec3(0,0,0), 2.4, points, indices);
+        std::vector<glm::vec4> colors(points.size(), glm::vec4(0.1, 1.0, 0.0, 1.0));
 
-    try{
-        ViewWindow(&model_handler->GetModel(), std::string(__FUNCTION__));
+        shell_object.AppendData(points, colors, indices);
     }
-    catch(CustomExp e){
-        std::cerr<<"*** Test "<<std::string(__FUNCTION__)<<" -> Failed "<<std::endl;
-        std::cerr<<e.what()<<std::endl<<std::endl;
-        return false;
+
+
+    {
+        std::vector<glm::vec3>  points;
+        std::vector<glm::ivec3>  indices;
+        GenerateSphere(glm::vec3(5,5,0), 1.5, points, indices);
+        std::vector<glm::vec4> colors(points.size(), glm::vec4(1.0, 0.0, 0.0, 1.0));
+
+        shell_object.AppendData(points, colors, indices);
     }
-    std::cout<<"*** Test "<<std::string(__FUNCTION__)<<" -> Visual test "<<std::endl;
-    return true;
+
+    return RunWithinTestEnv(&model_handler->GetModel(), std::string(__FUNCTION__));
 }
+
+bool TestTextureShell(){
+    std::unique_ptr<ModelHandler> model_handler(new ModelHandler("Model1")); 
+
+    int id = model_handler->GenerateTextureShellObject(nullptr, "TextureShell1");
+    TextureShellObject & texture_shell_object1 = model_handler->GetTextureShellObject(id);
+    LoadAssimpMesh("../resources/Crate/Crate1.obj", texture_shell_object1);
+    texture_shell_object1.Scale(glm::vec3(2,2,2));
+    texture_shell_object1.Translate(glm::vec3(1,1,0));
+
+    id = model_handler->GenerateTextureShellObject(nullptr, "TextureShell2");
+    TextureShellObject & texture_shell_object2 = model_handler->GetTextureShellObject(id);
+    LoadAssimpMesh("../resources/Earth/Earth.obj", texture_shell_object2);
+    texture_shell_object2.Translate(glm::vec3(-1,-1,0));
+
+    return RunWithinTestEnv(&model_handler->GetModel(), std::string(__FUNCTION__));
+}
+
+bool TestLine(){
+    std::unique_ptr<ModelHandler> model_handler(new ModelHandler("Model1")); 
+
+    int id = model_handler->GenerateLineObject(nullptr, "Line");
+    LineObject & line_object = model_handler->GetLineObject(id);
+
+    std::vector<glm::vec3> points{glm::vec3(0,0,0), 
+                                  glm::vec3(1.0,0.0,0),
+                                  glm::vec3(1,1,0),
+                                  glm::vec3(0.5,1.5,0),
+                                  glm::vec3(0.0,1.0,0)};
+    points.push_back(MeanPoint(points));
+
+    std::vector<glm::vec4> colors(points.size(), glm::vec4(1.0, 1.0, 0.0, 1.0));
+
+    std::vector<glm::ivec2> indices {glm::ivec2(0, 1), 
+                                     glm::ivec2(1, 2),
+                                     glm::ivec2(2, 3),
+                                     glm::ivec2(3, 4),
+                                     glm::ivec2(4, 0)};   
+
+    line_object.AppendData(points, colors, indices);
+
+    return RunWithinTestEnv(&model_handler->GetModel(), std::string(__FUNCTION__));
+}
+
+bool TestPoint(){
+    std::unique_ptr<ModelHandler> model_handler(new ModelHandler("Model1")); 
+
+    int id = model_handler->GeneratePointObject(nullptr, "Point");
+    PointObject & point_object = model_handler->GetPointObject(id);
+
+    std::vector<glm::vec3>  points;
+    std::vector<glm::ivec3>  _trash;
+    GenerateSphere(glm::vec3(5,5,5), 2.4, points, _trash);
+
+    std::vector<glm::vec4> colors(points.size(), glm::vec4(0.1, 1.0, 0.0, 1.0));
+
+    std::vector<int> indices;
+    for(int i; i<points.size(); ++i){
+        indices.push_back(i);
+    }
+
+    point_object.AppendData(points, colors, indices);
+
+    return RunWithinTestEnv(&model_handler->GetModel(), std::string(__FUNCTION__));
+}
+
 
 void RunModelTests(){
     std::cout<<"Model tests: "<<std::endl;
     auto all = true;
     if(all){
-        InsertShell_1();
-        InsertShell_2();
+        TestShell_1();
+        TestShell_2();
+        TestTextureShell();
+        TestLine();
+        TestPoint();
     }
     else{
         

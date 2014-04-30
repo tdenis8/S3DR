@@ -87,6 +87,7 @@ void OpenGLContext::InitGLFW(unsigned int width, unsigned int height, const std:
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_DEPTH_BITS,	24);
 
 	glfw_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if(!glfw_window){

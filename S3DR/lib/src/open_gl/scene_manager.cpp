@@ -59,6 +59,7 @@ SceneManager::~SceneManager(){
 }
 
 void SceneManager::InitOpenGL(){
+	glewExperimental = GL_TRUE;
 	// Initialize GLEW
 	if (glewInit() != GLEW_OK) {
 	    std::string error = std::string("*** Failed to initialize GLEW");
@@ -75,7 +76,7 @@ void SceneManager::InitOpenGL(){
 	glClearDepthf(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
 

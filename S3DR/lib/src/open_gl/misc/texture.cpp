@@ -1,6 +1,8 @@
 #include "texture.hpp"
 
-#include <SOIL/SOIL.h>
+#include "utility/custom_exp.hpp"
+
+#include <Magick++.h>
 
 Texture::Texture(const std::string & texture_filename):
 	texture_filename(texture_filename)
@@ -13,21 +15,26 @@ Texture::~Texture(){
 }
 
 bool Texture::Load(){
-	int width, height;
-	unsigned char* image = SOIL_load_image(texture_filename.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+	Magick::Image* m_pImage;
+    Magick::Blob m_blob;
 
-	if(image){
-	    glGenTextures(1, &texture_object);
-	    glBindTexture(GL_TEXTURE_2D, texture_object);
-	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	    
-	    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
-	    return true;
+	try {
+   		m_pImage = new Magick::Image(texture_filename);
+   		m_pImage->write(&m_blob, "RGBA");
+	}
+	catch (Magick::Error& Error) {
+		std::string error("*** Error loading texture ");
+        throw CustomExp(error + texture_filename + Error.what());
+   		return false;
 	}
 
-	return false;
+    glGenTextures(1, &texture_object);
+    glBindTexture(GL_TEXTURE_2D, texture_object);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_pImage->columns(), m_pImage->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_blob.data());
+
+    return true;
 }
 
 void Texture::Bind(GLenum texture_unit)

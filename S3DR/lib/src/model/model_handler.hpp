@@ -4,6 +4,7 @@
 #include "model.hpp"
 #include "scene_object.hpp"
 #include "shell_object.hpp"
+#include "texture_shell_object.hpp"
 #include "line_object.hpp"
 #include "point_object.hpp"
 
@@ -24,11 +25,15 @@ class ModelHandler {
         // (objects interherd from SceneObjects)
         int GenerateSceneObject(SceneObject * parent, std::string name, int priority = 1);
         int GenerateShellObject(SceneObject * parent, std::string name, int priority = 1);
+        int GenerateTextureShellObject(SceneObject * parent, std::string name, int priority = 1);
         int GenerateLineObject(SceneObject * parent, std::string name, int priority = 1);
         int GeneratePointObject(SceneObject * parent, std::string name, int priority = 1);
 
         SceneObject & GetSceneObject(int id) const;
         ShellObject & GetShellObject(int id) const;
+        TextureShellObject & GetTextureShellObject(int id) const;
+        LineObject & GetLineObject(int id) const;
+        PointObject & GetPointObject(int id) const;
 
     private:
     	std::unique_ptr<Model> model;

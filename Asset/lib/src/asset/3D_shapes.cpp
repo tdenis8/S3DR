@@ -1,12 +1,12 @@
 #include "3D_shapes.hpp"
 
-void GenerateSphere(ShellObject & shell_object,
-                    const glm::vec3 & center, 
-                    float radius)
+void GenerateSphere(const glm::vec3 & center, 
+                    float radius,
+                    std::vector<glm::vec3> & vertices,
+                    std::vector<glm::ivec3> & indices)
 {
 	constexpr unsigned int NUM_OF_ITERATIONS = 4;
-	std::vector<glm::vec3> vertices;
-    std::vector<glm::ivec3> indices;
+
     std::vector<glm::ivec3> temp_indices1;
     std::vector<glm::ivec3> temp_indices2;
 
@@ -58,7 +58,4 @@ void GenerateSphere(ShellObject & shell_object,
         temp_indices1 = temp_indices2;
     }
     indices = temp_indices1;
-
-    std::vector<glm::vec4> colors(vertices.size(), glm::vec4(0.5, 0.5, 0.0, 1.0));
-    shell_object.AppendData(vertices, colors, indices);
 }

@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-void LoadAssimpMesh(const std::string & filename, const std::shared_ptr<ShellObject> & shell_object){
+void LoadAssimpMesh(const std::string & filename, ShellObject & shell_object){
 	Assimp::Importer Importer;
     const aiScene* scene = Importer.ReadFile(filename.c_str(), 
                                              aiProcess_Triangulate | 
@@ -48,7 +48,7 @@ void LoadAssimpMesh(const std::string & filename, const std::shared_ptr<ShellObj
             }
 
             std::vector<glm::vec4> colors(points.size(), glm::vec4(0.5, 0.5, 0.5, 1.0));
-    		shell_object->AppendData(points, normals, colors, indices);
+    		shell_object.AppendData(points, normals, colors, indices);
     	}  	
     }
     else {
@@ -56,7 +56,7 @@ void LoadAssimpMesh(const std::string & filename, const std::shared_ptr<ShellObj
     }   
 }
 
-void LoadAssimpMesh(const std::string & filename, const std::shared_ptr<TextureShellObject> & texture_shell_object){
+void LoadAssimpMesh(const std::string & filename, TextureShellObject & texture_shell_object){
     Assimp::Importer Importer;
     const aiScene* scene = Importer.ReadFile(filename.c_str(), 
                                              aiProcess_Triangulate | 
@@ -109,12 +109,12 @@ void LoadAssimpMesh(const std::string & filename, const std::shared_ptr<TextureS
                 if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
                     std::string FullPath = FileDirFormFileName(filename) + "/" + Path.data;
                     std::cout<<"Found texture: "<<FullPath.c_str()<<std::endl;
-                    texture_shell_object->AppendData(points, normals, tex_coords, indices, FullPath.c_str());
+                    texture_shell_object.AppendData(points, normals, tex_coords, indices, FullPath.c_str());
                 }
             }
         }   
     }
     else {
         std::cerr<<"*** Error parsing: "<<filename.c_str() <<" : "<<Importer.GetErrorString()<<std::endl;
-    }   
+    }  
 }

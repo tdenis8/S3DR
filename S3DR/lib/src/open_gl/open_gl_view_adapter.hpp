@@ -1,6 +1,8 @@
 #ifndef _OPEN_GL_VIEW_ADAPTER_H_
 #define _OPEN_GL_VIEW_ADAPTER_H_
 
+#include "utility/subject.hpp"
+
 #include "view/view_adapter.hpp"
 
 #include <glm/glm.hpp>
@@ -15,7 +17,7 @@ class SelectionSet;
 class EventInfo;
 
 
-class OpenGLViewAdapter: public ViewAdapter {
+class OpenGLViewAdapter: public ViewAdapter, Observer {
     public:
         OpenGLViewAdapter(View & view);
         virtual ~OpenGLViewAdapter();

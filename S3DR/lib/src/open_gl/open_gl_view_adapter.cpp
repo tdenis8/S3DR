@@ -10,6 +10,7 @@
 
 OpenGLViewAdapter::OpenGLViewAdapter(View & view):
 	ViewAdapter(view),
+	Observer(),
 	selection_set(view.SelectionSetRef()),
 	scene_settings(nullptr),
 	scene_manager(nullptr),
@@ -17,45 +18,40 @@ OpenGLViewAdapter::OpenGLViewAdapter(View & view):
 {
 	try{
 		scene_settings.reset(new SceneSettings());
-		scene_manager.reset(new SceneManager(*scene_settings));
+    	scene_manager.reset(new SceneManager(*scene_settings));
 	}
     catch(CustomExp e){
         throw e;
     }
 
-	auto id = view.Observe(ViewEvent::ATTACH_MODEL, 
-							std::bind(&OpenGLViewAdapter::AttachModel, this, std::placeholders::_1));
-	view_observer_ids.push_back(id);
+	view.Observe(ViewEvent::ATTACH_MODEL, 
+				 std::bind(&OpenGLViewAdapter::AttachModel, this, std::placeholders::_1),
+				 this);
 
-	id = view.Observe(ViewEvent::DETACH_MODEL, 
-					   std::bind(&OpenGLViewAdapter::DetachModel, this, std::placeholders::_1));
-	view_observer_ids.push_back(id);
 
-	id = view.Observe(ViewEvent::WINDOW_RESIZE, 
-					   std::bind(&OpenGLViewAdapter::WindowResize, this, std::placeholders::_1));
-	view_observer_ids.push_back(id);
+	view.Observe(ViewEvent::DETACH_MODEL, 
+				 std::bind(&OpenGLViewAdapter::DetachModel, this, std::placeholders::_1),
+				 this);
 
+	view.Observe(ViewEvent::WINDOW_RESIZE, 
+				 std::bind(&OpenGLViewAdapter::WindowResize, this, std::placeholders::_1),
+				 this);
 
 	// View settings changes
-	id = view.Observe(ViewEvent::VIEWER_SETTINGS_CHANGE,
-					   std::bind(&OpenGLViewAdapter::ViewerSettingsChange, this, std::placeholders::_1));
-	view_observer_ids.push_back(id);
+	view.Observe(ViewEvent::VIEWER_SETTINGS_CHANGE,
+				 std::bind(&OpenGLViewAdapter::ViewerSettingsChange, this, std::placeholders::_1),
+				 this);
+
 
 	// Selections
-	id = selection_set.Observe(SelectionSetEvent::CALCULATE_SELECTION, 
-	  				   std::bind(&OpenGLViewAdapter::CalculateSelection, this, std::placeholders::_1));
-
-	selection_set_observer_ids.push_back(id);
+	selection_set.Observe(SelectionSetEvent::CALCULATE_SELECTION, 
+	  				      std::bind(&OpenGLViewAdapter::CalculateSelection, this, std::placeholders::_1),
+	  				      this);
 }
 
 OpenGLViewAdapter::~OpenGLViewAdapter(){
-	for(auto id: view_observer_ids){
-		view.RemoveObserver(id);
-	}
-
-	for(auto id: selection_set_observer_ids){
-		selection_set.RemoveObserver(id);
-	}
+	view.RemoveObservers(this);
+	selection_set.RemoveObservers(this);
 }
 
 

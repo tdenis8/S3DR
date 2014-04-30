@@ -3,17 +3,18 @@
 
 #include "model/shell_object.hpp"
 
-#include <memory>
+#include <vector>
 
 /// \brief Generate a sphere
 ///
 /// ...
 ///
-/// \param  reference to a ShellObject whitch will hold the generated sphere
 /// \param  center of the sphere 
 /// \param  radius of the sphere
-void GenerateSphere(ShellObject & shell_object,
-					const glm::vec3 & center, 
-                    float radius);
-
+/// \param  ....
+/// \param  ....
+void GenerateSphere(const glm::vec3 & center, 
+                    float radius,
+                    std::vector<glm::vec3> & vertices,
+                    std::vector<glm::ivec3> & indices);
 #endif

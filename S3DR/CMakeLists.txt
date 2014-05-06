@@ -9,6 +9,7 @@ FIND_PACKAGE(OpenGL REQUIRED)
 FIND_PACKAGE(PkgConfig REQUIRED)
 PKG_SEARCH_MODULE(GLEW REQUIRED glew)
 FIND_PACKAGE(ImageMagick COMPONENTS Magick++)
+PKG_SEARCH_MODULE(FREETYPE REQUIRED freetype2)
 
 include_directories()
 # ========================
@@ -44,12 +45,14 @@ SET(S3DR_LIB_SCR_OPENGL ${S3DR_LIB_SRC_DIR}/open_gl/model_adapter.cpp
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_adapters/texture_shell_adapter.cpp
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_adapters/point_adapter.cpp  
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_adapters/shell_adapter.cpp
+                        ${S3DR_LIB_SRC_DIR}/open_gl/object_adapters/text_adapter.cpp
 
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_renderers/line_renderer.cpp          
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_renderers/selection_renderer.cpp      
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_renderers/transparency_renderer.cpp
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_renderers/point_renderer.cpp         
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_renderers/shell_renderer.cpp
+                        ${S3DR_LIB_SRC_DIR}/open_gl/object_renderers/text_renderer.cpp
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_renderers/scene_object_renderer.cpp 
                         ${S3DR_LIB_SRC_DIR}/open_gl/object_renderers/texture_shell_renderer.cpp
 
@@ -80,6 +83,7 @@ SET(S3DR_LIB_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/src)
 INCLUDE_DIRECTORIES(${S3DR_LIB_INC_DIR})
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/Utility/lib/src)
 INCLUDE_DIRECTORIES(${ImageMagick_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
 
 # Build library
 ADD_LIBRARY(S3DR STATIC ${S3DR_LIB_SRC_ALL})
@@ -87,6 +91,8 @@ TARGET_LINK_LIBRARIES(S3DR Utility)
 TARGET_LINK_LIBRARIES(S3DR ${OPENGL_LIBRARIES})
 TARGET_LINK_LIBRARIES(S3DR ${GLEW_LIBRARIES})
 TARGET_LINK_LIBRARIES(S3DR ${ImageMagick_LIBRARIES})
+TARGET_LINK_LIBRARIES(S3DR ${FREETYPE_LIBRARIES})
+
 
 # ========================
 # S3DR tests

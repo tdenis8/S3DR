@@ -18,6 +18,7 @@ TODO:
 11 + Migrate from SOIL to ImageMagick
 12 - Update ASSIMP to latest version
 13 - Add text rendering support
+14 - Upgrade point renderer
 
 ==================================
 BUGS:

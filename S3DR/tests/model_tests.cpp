@@ -68,17 +68,18 @@ bool TestShell_2(){
 bool TestTextureShell(){
     std::unique_ptr<ModelHandler> model_handler(new ModelHandler("Model1")); 
 
-    int id = model_handler->GenerateTextureShellObject(nullptr, "TextureShell1");
-    TextureShellObject & texture_shell_object1 = model_handler->GetTextureShellObject(id);
-    LoadAssimpMesh("../resources/Crate/Crate1.obj", texture_shell_object1);
-    texture_shell_object1.Scale(glm::vec3(2,2,2));
-    texture_shell_object1.Translate(glm::vec3(1,1,0));
+    // int id = model_handler->GenerateTextureShellObject(nullptr, "TextureShell1");
+    // TextureShellObject & texture_shell_object1 = model_handler->GetTextureShellObject(id);
+    // LoadAssimpMesh("../resources/Crate/Crate1.obj", texture_shell_object1);
+    // texture_shell_object1.Scale(glm::vec3(2,2,2));
+    // texture_shell_object1.Translate(glm::vec3(1,1,0));
 
-    id = model_handler->GenerateTextureShellObject(nullptr, "TextureShell2");
+    int id = model_handler->GenerateTextureShellObject(nullptr, "TextureShell2");
     TextureShellObject & texture_shell_object2 = model_handler->GetTextureShellObject(id);
     LoadAssimpMesh("../resources/Earth/Earth.obj", texture_shell_object2);
     texture_shell_object2.Translate(glm::vec3(-1,-1,0));
-
+    texture_shell_object2.Scale(glm::vec3(2,2,2));
+    
     return RunWithinTestEnv(&model_handler->GetModel(), std::string(__FUNCTION__));
 }
 

@@ -100,7 +100,11 @@ TARGET_LINK_LIBRARIES(S3DR ${FREETYPE_LIBRARIES})
 # Set source variables
 SET(S3DR_TESTS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
-SET(S3DR_TEST_SRC ${S3DR_TESTS_SRC_DIR}/model_tests.cpp    
+SET(S3DR_TEST_SRC ${S3DR_TESTS_SRC_DIR}/model_tests.cpp
+                  ${S3DR_TESTS_SRC_DIR}/point_tests.cpp   
+                  ${S3DR_TESTS_SRC_DIR}/line_tests.cpp   
+                  ${S3DR_TESTS_SRC_DIR}/shell_tests.cpp   
+                  ${S3DR_TESTS_SRC_DIR}/text_tests.cpp       
                   ${S3DR_TESTS_SRC_DIR}/main.cpp
                   ${S3DR_TESTS_SRC_DIR}/misc.cpp)
 

@@ -4,11 +4,12 @@
 #include "shell_tests.hpp"
 #include "text_tests.hpp"
 
-int main(int argc, char const *argv[]){
-	RunModelTests();
-	RunPointTests();
-	RunLineTests();
-	RunShellTests();
-	RunTextTests();
-	return 0;
+int main(int argc, char const *argv[])
+{
+   RunModelTests();
+   RunPointTests();
+   RunLineTests();
+   RunShellTests();
+   RunTextTests();
+   return 0;
 }

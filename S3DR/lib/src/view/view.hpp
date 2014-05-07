@@ -77,7 +77,7 @@ class View : public Subject<ViewEvent>, public MouseEventsDispatcher, public Key
         // Viewer settings setters
         void SetBackgroundColor(const glm::vec3 & background_color);
 
-        SelectionSet & SelectionSetRef();
+        SelectionSet & GetSelectionSet();
 
     protected:
         Camera & CameraRef();

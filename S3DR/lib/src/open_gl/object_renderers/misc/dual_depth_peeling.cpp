@@ -1,6 +1,6 @@
 #include "dual_depth_peeling.hpp"
 
-#include "../object_renderers/transparency_renderer.hpp"
+#include "../transparency_renderer.hpp"
 #include <iostream>
 
 DualDepthPeeling::DualDepthPeeling(TransparencyRenderer & transparency_renderer):

@@ -111,7 +111,7 @@ void View::SetBackgroundColor(const glm::vec3 & background_color){
 	Emit(ViewEvent::VIEWER_SETTINGS_CHANGE);
 }
 
-SelectionSet & View::SelectionSetRef(){
+SelectionSet & View::GetSelectionSet(){
 	return *selection_set;
 }
 

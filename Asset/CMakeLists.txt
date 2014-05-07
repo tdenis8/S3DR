@@ -5,7 +5,7 @@ PROJECT(Asset)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 FIND_PACKAGE(PkgConfig REQUIRED)
-PKG_SEARCH_MODULE(GLFW REQUIRED glfw3>=3.0)
+PKG_SEARCH_MODULE(GLFW REQUIRED glfw3)
 PKG_SEARCH_MODULE(ASSIMP REQUIRED assimp>=3.0)
 
 # ==========================
@@ -14,13 +14,13 @@ PKG_SEARCH_MODULE(ASSIMP REQUIRED assimp>=3.0)
 # Set source variables
 SET(ASSET_LIB_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/src)
 
-SET(ASSET_LIB_SCR ${ASSET_LIB_SRC_DIR}/asset/3D_shapes.cpp  
+SET(ASSET_LIB_SRC ${ASSET_LIB_SRC_DIR}/asset/3D_shapes.cpp  
 				  ${ASSET_LIB_SRC_DIR}/asset/assimp_mesh_loader.cpp
 				  ${ASSET_LIB_SRC_DIR}/asset/combined_operator.cpp
 				  ${ASSET_LIB_SRC_DIR}/asset/open_gl_context.cpp
 				  ${ASSET_LIB_SRC_DIR}/asset/view_window.cpp)
 
-SET(ASSET_LIB_SRC_ALL ${ASSET_LIB_SCR})
+SET(ASSET_LIB_SRC_ALL ${ASSET_LIB_SRC})
 
 # Set include directories
 SET(ASSET_LIB_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/src)

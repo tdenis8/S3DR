@@ -7,7 +7,7 @@ script_root_dir=`pwd`
 # ***************************************************
 
 # Go to shaders directory
-cd include/open_gl/object_renderers/shaders/
+cd lib/src/open_gl/object_renderers/shaders/
 
 for in_shader in *.{frag,vert,geom}
 do

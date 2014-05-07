@@ -37,7 +37,7 @@ int SelectOperator::OnLeftButtonUp(const MouseEventInfo & info){
 		// Unselect previously selected elements
 	}
 
-	auto & selection_set = view.SelectionSetRef();
+	auto & selection_set = view.GetSelectionSet();
 	selection_set.CalculateSelection(info.X(), info.Y());
 	auto selection_data = selection_set.GetSelectionData();
 	scene_object_key = selection_data.scene_object_key;
@@ -51,7 +51,7 @@ int SelectOperator::OnNoButtonDownAndMove(const MouseEventInfo & info){
 		return 0;
 	}
 
-	auto & selection_set = view.SelectionSetRef();
+	auto & selection_set = view.GetSelectionSet();
 	selection_set.CalculateSelection(info.X(), info.Y());
 	auto selection_data = selection_set.GetSelectionData();
 	scene_object_key = selection_data.scene_object_key;

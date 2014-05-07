@@ -5,15 +5,30 @@
 
 #include <iostream>
 
-bool RunWithinTestEnv(Model * model, const std::string & test_name){
-    try{
+bool RunWithinTestEnv(Model* model, const std::string& test_name)
+{
+    try {
         ViewWindow(model, test_name);
     }
-    catch(CustomExp e){
-        std::cerr<<"*** Test "<<test_name<<" -> Failed "<<std::endl;
-        std::cerr<<e.what()<<std::endl<<std::endl;
+    catch (CustomExp e) {
+        std::cerr << "*** Test " << test_name << " -> Failed " << std::endl;
+        std::cerr << e.what() << std::endl << std::endl;
         return false;
     }
-    std::cout<<"*** Test "<<test_name<<" -> Visual test "<<std::endl;
+    std::cout << "*** Test " << test_name << " -> Visual test " << std::endl;
+    return true;
+}
+
+bool RunWithinTestEnv(Model* model, const std::string& test_name, std::function<void(void)> cb_function)
+{
+    try {
+        ViewWindow(model, test_name, cb_function);
+    }
+    catch (CustomExp e) {
+        std::cerr << "*** Test " << test_name << " -> Failed " << std::endl;
+        std::cerr << e.what() << std::endl << std::endl;
+        return false;
+    }
+    std::cout << "*** Test " << test_name << " -> Visual test " << std::endl;
     return true;
 }

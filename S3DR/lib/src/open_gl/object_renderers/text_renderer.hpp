@@ -9,25 +9,29 @@
 
 class TextAdapter;
 
-class TextRenderer: public SceneObjectRenderer {
-    public:
-        TextRenderer();
-        TextRenderer(const TextRenderer &)=delete;
-        TextRenderer & operator=(const TextRenderer &)=delete;
-        ~TextRenderer();
+class TextRenderer : public SceneObjectRenderer
+{
+public:
+    TextRenderer();
+    TextRenderer(const TextRenderer &) = delete;
+    TextRenderer &operator=(const TextRenderer &) = delete;
+    ~TextRenderer();
 
-        void AttachTextAdapter(TextAdapter * text_adapter);
-        void DetachTextAdapter(TextAdapter * text_adapter);
-        void Reset();
-        
-        void Render(const glm::mat4 & view, const glm::mat4 & projection, int priority);
+    void SetWidthHeight(int width, int height);
 
-    private:
-    	void InitProgram();
-        
-        void SetModelToClipMatrixPA(const glm::mat4 & model_to_clip_matrix);
+    void AttachTextAdapter(TextAdapter *text_adapter);
+    void DetachTextAdapter(TextAdapter *text_adapter);
+    void Reset();
 
-		std::vector<TextAdapter *> text_adapters[3];
+    void Render();
+
+private:
+    void InitProgram();
+
+    void SetModelToClipMatrixPA(const glm::mat4 &model_to_clip_matrix);
+
+    glm::mat4 projection_matrix_;
+    std::vector<TextAdapter *> text_adapters_;
 };
-    
+
 #endif

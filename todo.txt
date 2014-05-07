@@ -19,9 +19,12 @@ TODO:
 12 - Update ASSIMP to latest version
 13 - Add text rendering support
 14 - Upgrade point renderer
+15 - Update adapters (use text adapter as reference)
+16 + Fixs Shader class (add zero-termination character)
+17 - Introduce view settings class ( out of open_gl ...)
 
 ==================================
 BUGS:
 ==================================
 
-- 
+- Fix objects with more that one texture

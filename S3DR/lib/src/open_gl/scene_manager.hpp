@@ -7,7 +7,9 @@
 #include "object_renderers/line_renderer.hpp"
 #include "object_renderers/point_renderer.hpp"
 #include "object_renderers/selection_renderer.hpp"
-#include "techniques/selection_texture.hpp"
+#include "object_renderers/text_renderer.hpp"
+
+#include "misc/selection_texture.hpp"
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
@@ -15,54 +17,60 @@
 
 class SceneSettings;
 
-class SceneManager {
-    public:
-        SceneManager(SceneSettings & scene_settings);
-        SceneManager(const SceneManager &) = delete;
-        SceneManager& operator=(const SceneManager&) = delete;
-        virtual ~SceneManager();
+class SceneManager : Observer
+{
+public:
+    SceneManager() = delete;
+    explicit SceneManager(SceneSettings& scene_settings);
+    SceneManager(const SceneManager&) = delete;
+    SceneManager(SceneManager&&) = delete;
+    SceneManager& operator=(const SceneManager&) = delete;
+    SceneManager& operator=(SceneManager&&) = delete;
+    virtual ~SceneManager();
 
-        void Render(const glm::mat4 & view, const glm::mat4 & projection);
-        void SelectionRender();
+    // TODO: insted of  view and projection send cmera data struct
+    void Render(const glm::mat4& view, const glm::mat4& projection);
+    void SelectionRender();
 
-        ShellRenderer & ShellRendererRef();
-        TextureShellRenderer & TextureShellRendererRef();
-        TransparencyRenderer & TransparencyRendererRef();
-        LineRenderer & LineRendererRef();
-        PointRenderer & PointRendererRef();
-        SelectionRenderer & SelectionRendererRef();
+    ShellRenderer& GetShellRenderer();
+    TextureShellRenderer& GetTextureShellRenderer();
+    TransparencyRenderer& GetTransparencyRenderer();
+    LineRenderer& GetLineRenderer();
+    PointRenderer& GetPointRenderer();
+    SelectionRenderer& GetSelectionRenderer();
+    TextRenderer& GetTextRenderer();
 
-        SelectionTexture & SelectionTextureRef();
+    SelectionTexture& GetSelectionTexture();
 
-        float ScreenDepthAt(int x, int y) const;
+    float ScreenDepthAt(int x, int y) const;
 
-    private:
-        void InitOpenGL();
-        void InitUBOs();
-        void ConnectUBOsAndPrograms();
+private:
+    void InitUBOs();
+    void ConnectUBOsAndPrograms();
 
-        void WidthHeightChanged(const EventInfo & info);
-        void BackgroundColorChanged(const EventInfo & info);
-        void LightsChanged(const EventInfo & info);
+    void WidthHeightChanged(const EventInfo& info);
+    void BackgroundColorChanged(const EventInfo& info);
+    void LightsChanged(const EventInfo& info);
 
-        void UpdateLightsPositons();
+    void UpdateLightsPositons();
 
-        SceneSettings & scene_settings;
-        GLuint lights_UBO;
+    GLuint lights_UBO;
+    glm::mat4 view_matrix;
+    glm::mat4 projection_matrix;
 
-        glm::mat4 view_matrix;
-        glm::mat4 projection_matrix;
+    SceneSettings& scene_settings;
 
-        std::unique_ptr<ShellRenderer> shell_renderer;
-        std::unique_ptr<TextureShellRenderer> texture_shell_renderer;
-        std::unique_ptr<TransparencyRenderer> transparency_renderer;
-        std::unique_ptr<LineRenderer> line_renderer;
-        std::unique_ptr<PointRenderer> point_renderer;
-        std::unique_ptr<SelectionRenderer> selection_renderer;
+    // Renderers
+    ShellRenderer shell_renderer;
+    TextureShellRenderer texture_shell_renderer;
+    TransparencyRenderer transparency_renderer;
+    LineRenderer line_renderer;
+    PointRenderer point_renderer;
+    SelectionRenderer selection_renderer;
+    TextRenderer text_renderer;
 
-        std::unique_ptr<SelectionTexture> selection_texture;
-
-        std::vector<unsigned int> observer_ids;
+    // Misc
+    SelectionTexture selection_texture;
 };
 
 #endif

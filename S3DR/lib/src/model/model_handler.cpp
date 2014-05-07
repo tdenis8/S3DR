@@ -47,6 +47,12 @@ int ModelHandler::GeneratePointObject(SceneObject * parent, std::string name, in
 	return key;
 }
 
+int ModelHandler::GenerateTextObject(SceneObject * parent, std::string name, int priority){
+	std::unique_ptr<SceneObject> scene_object(new TextObject(parent, name, priority));
+	int key = model->InsertSceneObject(scene_object);
+	return key;
+}
+
 SceneObject & ModelHandler::GetSceneObject(int id) const {
 	SceneObject * scene_object_ptr =  model->GetSceneObject(id);
 	return *scene_object_ptr;
@@ -86,4 +92,13 @@ PointObject & ModelHandler::GetPointObject(int id) const {
 	}
     std::string error("*** S3DR error: wrong PointObject key.");
     throw CustomExp(error);
+}
+
+TextObject & ModelHandler::GetTextObject(int id) const {
+	SceneObject * scene_object_ptr =  model->GetSceneObject(id);
+	if(TextObject * text_object_ptr = dynamic_cast<TextObject *>(scene_object_ptr)){
+		return *text_object_ptr;
+	}
+    std::string error("*** S3DR error: wrong TextObject key.");
+    throw CustomExp(error);	
 }

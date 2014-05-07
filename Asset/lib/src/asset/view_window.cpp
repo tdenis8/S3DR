@@ -12,11 +12,11 @@
 
 void ViewWindow(Model * model, const std::string & title) {
         OpenGLContext gl_context(title);
-        std::unique_ptr<View> view{new View()};
+        std::unique_ptr<View> view(new View());
         view->AttachModel(model);
         view->SetBackgroundColor(glm::vec3(0.9, 0.9, 0.9));
 
-        std::unique_ptr<CombinedOperator> combined_operator{new CombinedOperator(*view)};
+        std::unique_ptr<CombinedOperator> combined_operator(new CombinedOperator(*view));
         view->AttachOperator(combined_operator.get());
         
         gl_context.SetMouseButtonCallback(std::bind(&View::OnMouseButton, view.get(), std::placeholders::_1, std::placeholders::_2));
@@ -33,11 +33,11 @@ void ViewWindow(Model * model, const std::string & title) {
 
 void ViewWindow(Model * model, const std::string & title, std::function<void(void)> cb_function){
         OpenGLContext gl_context(title);
-        std::unique_ptr<View> view{new View()};
+        std::unique_ptr<View> view(new View());
         view->AttachModel(model);
         view->SetBackgroundColor(glm::vec3(0.8, 0.8, 0.8));
 
-        std::unique_ptr<CameraOperator> camera_operator{new CameraOperator(*view)};
+        std::unique_ptr<CameraOperator> camera_operator(new CameraOperator(*view));
         view->AttachOperator(camera_operator.get());
         
         gl_context.SetMouseButtonCallback(std::bind(&View::OnMouseButton, view.get(), std::placeholders::_1, std::placeholders::_2));

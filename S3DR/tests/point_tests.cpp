@@ -22,7 +22,7 @@ bool TestPoint1(){
     std::vector<glm::vec4> colors(points.size(), glm::vec4(0.1, 1.0, 0.0, 1.0));
 
     std::vector<int> indices;
-    for(int i; i<points.size(); ++i){
+    for(int i=0; i<points.size(); ++i){
         indices.push_back(i);
     }
 

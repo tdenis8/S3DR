@@ -7,6 +7,7 @@
 #include "texture_shell_object.hpp"
 #include "line_object.hpp"
 #include "point_object.hpp"
+#include "text_object.hpp"
 
 #include <string>
 #include <memory>
@@ -28,12 +29,14 @@ class ModelHandler {
         int GenerateTextureShellObject(SceneObject * parent, std::string name, int priority = 1);
         int GenerateLineObject(SceneObject * parent, std::string name, int priority = 1);
         int GeneratePointObject(SceneObject * parent, std::string name, int priority = 1);
+        int GenerateTextObject(SceneObject * parent, std::string name, int priority = 1);
 
         SceneObject & GetSceneObject(int id) const;
         ShellObject & GetShellObject(int id) const;
         TextureShellObject & GetTextureShellObject(int id) const;
         LineObject & GetLineObject(int id) const;
         PointObject & GetPointObject(int id) const;
+        TextObject & GetTextObject(int id) const;
 
     private:
     	std::unique_ptr<Model> model;

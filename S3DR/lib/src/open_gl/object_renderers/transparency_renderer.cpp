@@ -1,6 +1,6 @@
 #include "transparency_renderer.hpp"
 
-#include "../techniques/dual_depth_peeling.hpp"
+#include "misc/dual_depth_peeling.hpp"
 #include "../object_adapters/shell_adapter.hpp"
 
 #include "shaders/include/DDPInitVS.hpp"

@@ -1,6 +1,6 @@
 #include "texture_shell_adapter.hpp"
 
-#include "../misc/texture.hpp"
+#include "misc/texture.hpp"
 #include <iostream>
 
 template <typename T, unsigned size>
@@ -59,7 +59,7 @@ void TextureShellAdapter::UpdateData(){
 
     // Update textures
     const std::vector<TextureShellEntry> & entries = texture_shell_object->TextureShellDataRef().entries;
-    if(textures.size() != entries.size()){
+    // if(textures.size() != entries.size()){
         for(int i = textures.size(); i<entries.size(); ++i){
             int texture_index = entries[i].TextureIndex; 
             std::string texture_path = texture_shell_data.textures_paths[texture_index];
@@ -73,7 +73,7 @@ void TextureShellAdapter::UpdateData(){
                 allow_render = false;
             }
         }
-    }
+    // }
 }
 
 void TextureShellAdapter::Render(){

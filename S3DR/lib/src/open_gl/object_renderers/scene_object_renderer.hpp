@@ -1,7 +1,7 @@
 #ifndef _SCENE_OBJECT_RENDERER_HPP_
 #define _SCENE_OBJECT_RENDERER_HPP_
 
-#include "../misc/program.hpp"
+#include "misc/program.hpp"
 
 #include <memory>
 

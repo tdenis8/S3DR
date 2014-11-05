@@ -3,20 +3,23 @@
 
 #include "scene_object.hpp"
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
 #include <string>
 #include <vector>
 #include <memory>
 
-struct TextureShellEntry {
+struct TextureShellEntry
+{
     unsigned int NumIndices = 0;
     unsigned int VertexOffset = 0;
     unsigned int IndicesOffset = 0;
     unsigned int TextureIndex = 0;
 };
 
-struct TextureShellData {
+struct TextureShellData
+{
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> texture_coords;
@@ -25,29 +28,30 @@ struct TextureShellData {
     std::vector<std::string> textures_paths;
 };
 
-class TextureShellObject : public SceneObject {
-    public:
-        TextureShellObject()=delete;
-        explicit TextureShellObject(SceneObject * parent, std::string name, int priority = 1);
-        TextureShellObject(const TextureShellObject &)=delete;
-        TextureShellObject & operator=(const TextureShellObject &)=delete;
-        virtual ~TextureShellObject();
+class TextureShellObject : public SceneObject
+{
+public:
+    TextureShellObject() = delete;
+    explicit TextureShellObject(SceneObject *parent, std::string name, int priority = 1);
+    TextureShellObject(const TextureShellObject &) = delete;
+    TextureShellObject &operator=(const TextureShellObject &) = delete;
+    virtual ~TextureShellObject();
 
-        void AppendData(const std::vector<glm::vec3> & vertices,
-                        const std::vector<glm::vec2> & texture_coords,
-                        const std::vector<glm::ivec3> & indices,
-                        const std::string & texture_path);
+    void AppendData(const std::vector<glm::vec3> &vertices,
+                    const std::vector<glm::vec2> &texture_coords,
+                    const std::vector<glm::ivec3> &indices,
+                    const std::string &texture_path);
 
-        void AppendData(const std::vector<glm::vec3> & vertices,
-                        const std::vector<glm::vec3> & normals,
-                        const std::vector<glm::vec2> & texture_coords,
-                        const std::vector<glm::ivec3> & indices,
-                        const std::string & texture_path);
+    void AppendData(const std::vector<glm::vec3> &vertices,
+                    const std::vector<glm::vec3> &normals,
+                    const std::vector<glm::vec2> &texture_coords,
+                    const std::vector<glm::ivec3> &indices,
+                    const std::string &texture_path);
 
-        const TextureShellData & TextureShellDataRef();
-        
-    private:
-        TextureShellData texture_shell_data;
+    const TextureShellData &TextureShellDataRef();
+
+private:
+    TextureShellData texture_shell_data;
 };
 
 #endif

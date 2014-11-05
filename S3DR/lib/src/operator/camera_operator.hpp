@@ -3,19 +3,21 @@
 
 #include "operator.hpp"
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
-class CameraOperator: public Operator {
-	public:
-		CameraOperator(View & view);
-		virtual ~CameraOperator();
+class CameraOperator : public Operator
+{
+public:
+    CameraOperator(View& view);
+    virtual ~CameraOperator();
 
-		int OnLeftButtonDownAndMove(const MouseEventInfo & info);
-		int OnRightButtonDownAndMove(const MouseEventInfo & info);
-		int OnMouseWheel(const MouseEventInfo & info);
+    int OnLeftButtonDownAndMove(const MouseEventInfo& info);
+    int OnRightButtonDownAndMove(const MouseEventInfo& info);
+    int OnMouseWheel(const MouseEventInfo& info);
 
-		//Utility functions
-		glm::vec3 MousePosition(const MouseEventInfo & info) const;
+    // Utility functions
+    glm::vec3 MousePosition(const MouseEventInfo& info) const;
 };
 
 #endif

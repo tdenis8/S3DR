@@ -3,31 +3,33 @@
 
 #include "scene_object_renderer.hpp"
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
 #include <vector>
 
 class PointAdapter;
 
-class PointRenderer: public SceneObjectRenderer {
-    public:
-        PointRenderer();
-        PointRenderer(const PointRenderer &)=delete;
-        PointRenderer & operator=(const PointRenderer &)=delete;
-        ~PointRenderer();
+class PointRenderer : public SceneObjectRenderer
+{
+public:
+    PointRenderer();
+    PointRenderer(const PointRenderer &) = delete;
+    PointRenderer &operator=(const PointRenderer &) = delete;
+    ~PointRenderer();
 
-        void AttachPointAdapter(PointAdapter * point_adapter);
-        void DetachPointAdapter(PointAdapter * point_adapter);
-        void Reset();
-        
-        void Render(const glm::mat4 & view, const glm::mat4 & projection, int priority);
+    void AttachPointAdapter(PointAdapter *point_adapter);
+    void DetachPointAdapter(PointAdapter *point_adapter);
+    void Reset();
 
-    private:
-    	void InitProgram();
-        
-        void SetModelToClipMatrixPA(const glm::mat4 & model_to_clip_matrix);
+    void Render(const glm::mat4 &view, const glm::mat4 &projection, int priority);
 
-		std::vector<PointAdapter *> point_adapters[3];
+private:
+    void InitProgram();
+
+    void SetModelToClipMatrixPA(const glm::mat4 &model_to_clip_matrix);
+
+    std::vector<PointAdapter *> point_adapters[3];
 };
-    
+
 #endif

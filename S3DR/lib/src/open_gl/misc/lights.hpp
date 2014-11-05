@@ -1,16 +1,19 @@
 #ifndef _LIGHTS_H_
 #define _LIGHTS_H_
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
 #define MAX_NUMBER_OF_LIGHTS 8
 
-struct Light {
+struct Light
+{
     glm::vec4 light_pos;
     glm::vec4 light_intensity;
 };
 
-struct LightsBlock {
+struct LightsBlock
+{
     glm::vec4 ambient_intensity;
     float attenuation;
     unsigned int number_of_lights;
@@ -18,22 +21,22 @@ struct LightsBlock {
     Light lights[MAX_NUMBER_OF_LIGHTS];
 };
 
-class Lights { 
-    public:
-		Lights();
-        ~Lights();
-        Lights(const Lights &)=delete;
-        Lights & operator=(const Lights &)=delete;
-    
-        const LightsBlock & LightsBlockRef();
-        const LightsBlock & LightsBlockInCameraSpace(const glm::mat4 & view_matrix);
+class Lights
+{
+public:
+    Lights();
+    ~Lights();
+    Lights(const Lights &) = delete;
+    Lights &operator=(const Lights &) = delete;
 
-        bool PushLightToScene(const Light & light);
-        bool PopLightFromScene(Light & light);
+    const LightsBlock &LightsBlockRef();
+    const LightsBlock &LightsBlockInCameraSpace(const glm::mat4 &view_matrix);
 
-    private:
-        LightsBlock lights_block;
+    bool PushLightToScene(const Light &light);
+    bool PopLightFromScene(Light &light);
 
+private:
+    LightsBlock lights_block;
 };
-    
+
 #endif

@@ -8,41 +8,45 @@
 #include "scene_manager.hpp"
 #include "model_adapter.hpp"
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
+
 #include <memory>
 #include <vector>
 
-class OpenGLInitazer{
-    public:
-        OpenGLInitazer();
+class OpenGLInitazer
+{
+public:
+    OpenGLInitazer();
 };
 
-class OpenGLViewAdapter: public ViewAdapter, Observer {
-    public:
-        OpenGLViewAdapter()=delete;
-        explicit OpenGLViewAdapter(View & view);
-        OpenGLViewAdapter(const OpenGLViewAdapter &)=delete;
-        OpenGLViewAdapter(OpenGLViewAdapter &&)=delete;
-        OpenGLViewAdapter & operator=(const OpenGLViewAdapter &)=delete;
-        OpenGLViewAdapter & operator=(OpenGLViewAdapter &&)=delete;
-        virtual ~OpenGLViewAdapter();
+class OpenGLViewAdapter : public ViewAdapter, Observer
+{
+public:
+    OpenGLViewAdapter() = delete;
+    explicit OpenGLViewAdapter(View &view);
+    OpenGLViewAdapter(const OpenGLViewAdapter &) = delete;
+    OpenGLViewAdapter(OpenGLViewAdapter &&) = delete;
+    OpenGLViewAdapter &operator=(const OpenGLViewAdapter &) = delete;
+    OpenGLViewAdapter &operator=(OpenGLViewAdapter &&) = delete;
+    virtual ~OpenGLViewAdapter();
 
-        void Render(const glm::mat4 & view_matrix, const glm::mat4 & projection_matrix);
-        float ScreenDepthAt(int x, int y) const;
+    void Render(const glm::mat4 &view_matrix, const glm::mat4 &projection_matrix);
+    float ScreenDepthAt(int x, int y) const;
 
-    private:
-    	void AttachModel(const EventInfo & info);
-        void DetachModel(const EventInfo & info);
-        void WindowResize(const EventInfo & info);
-        void ViewerSettingsChange(const EventInfo & info);
-        void CalculateSelection(const EventInfo & info);
+private:
+    void AttachModel(const EventInfo &info);
+    void DetachModel(const EventInfo &info);
+    void WindowResize(const EventInfo &info);
+    void ViewerSettingsChange(const EventInfo &info);
+    void CalculateSelection(const EventInfo &info);
 
-        SelectionSet & selection_set;
-        
-        OpenGLInitazer open_gl_initazer;
-        SceneSettings scene_settings;
-        SceneManager scene_manager;
-    	std::unique_ptr<ModelAdapter> model_adapter;
+    SelectionSet &selection_set;
+
+    OpenGLInitazer open_gl_initazer;
+    SceneSettings scene_settings;
+    SceneManager scene_manager;
+    std::unique_ptr<ModelAdapter> model_adapter;
 };
 
 #endif

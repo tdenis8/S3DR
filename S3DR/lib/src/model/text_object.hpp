@@ -3,6 +3,7 @@
 
 #include "scene_object.hpp"
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
 #include <string>

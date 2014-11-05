@@ -6,28 +6,31 @@
 #include <map>
 #include <vector>
 
-class Observer {
-public:
+class Observer
+{
+    public:
     Observer();
     virtual ~Observer();
 
     unsigned int Id() const;
 
-private:
+    private:
     unsigned int observer_id;
 };
 
 // Class encapusulates information associated with an event,
-class EventInfo {
-public:
+class EventInfo
+{
+    public:
     EventInfo() = default;
     virtual ~EventInfo(){};
 };
 
-template <typename EventType> class Subject {
-public:
-    Subject()
-        : event_id_counter(0){};
+template <typename EventType>
+class Subject
+{
+    public:
+    Subject() : event_id_counter(0){};
     Subject(const Subject&) = delete;
     Subject& operator=(const Subject&) = delete;
     virtual ~Subject(){};
@@ -52,11 +55,14 @@ public:
 
     void RemoveObserver(unsigned int event_id)
     {
-        for (auto& kv : function_objects) {
+        for(auto& kv : function_objects)
+        {
             auto it = kv.second.begin();
             auto end = kv.second.end();
-            for (; it != end; ++it) {
-                if (it->first == event_id) {
+            for(; it != end; ++it)
+            {
+                if(it->first == event_id)
+                {
                     kv.second.erase(it);
                     return;
                 }
@@ -67,12 +73,14 @@ public:
     void RemoveObservers(const Observer* observer)
     {
         unsigned int observer_id = observer->Id();
-        if (!observers.count(observer_id)) {
+        if(!observers.count(observer_id))
+        {
             return;
         }
 
         auto& event_ids = observers[observer_id];
-        for (unsigned int event_id : event_ids) {
+        for(unsigned int event_id : event_ids)
+        {
             RemoveObserver(event_id);
         }
         observers.erase(observer_id);
@@ -80,30 +88,35 @@ public:
 
     void Emit(const EventType& event_type) const
     {
-        if (!function_objects.count(event_type)) {
+        if(!function_objects.count(event_type))
+        {
             return;
         }
 
-        for (const auto& it : function_objects.at(event_type)) {
+        for(const auto& it : function_objects.at(event_type))
+        {
             it.second(EventInfo());
         }
     }
 
     void Emit(const EventType& event_type, const EventInfo& event_info) const
     {
-        if (!function_objects.count(event_type)) {
+        if(!function_objects.count(event_type))
+        {
             return;
         }
 
-        for (const auto& it : function_objects.at(event_type)) {
+        for(const auto& it : function_objects.at(event_type))
+        {
             it.second(event_info);
         }
     }
 
-private:
+    private:
     unsigned int event_id_counter;
-    std::map<EventType, std::vector<std::pair<unsigned int, std::function<void(const EventInfo&)>>>> function_objects;
-    std::map<unsigned int, std::vector<unsigned int>> observers;
+    std::map<EventType, std::vector<std::pair<unsigned int, std::function<void(const EventInfo&)> > > >
+        function_objects;
+    std::map<unsigned int, std::vector<unsigned int> > observers;
 };
 
 #endif

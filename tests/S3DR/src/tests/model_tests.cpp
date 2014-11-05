@@ -5,23 +5,22 @@
 #include "asset/assimp_mesh_loader.hpp"
 #include "model/model_handler.hpp"
 
-#include "misc.hpp"
+#include "auxiliary/test_env.hpp"
 
 #include <memory>
 #include <vector>
 #include <iostream>
 
-
-
-void RunModelTests(){
-    std::cout<<"Model tests: "<<std::endl;
-    std::cout<<"--------------------------"<<std::endl;
+void RunModelTests()
+{
+    std::cout << "Model tests: " << std::endl;
+    std::cout << "--------------------------" << std::endl;
     auto all = true;
-    if(all){
-
+    if(all)
+    {
     }
-    else{
-        
+    else
+    {
     }
-    std::cout<<std::endl;
+    std::cout << std::endl;
 }

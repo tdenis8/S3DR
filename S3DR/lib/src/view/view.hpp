@@ -17,83 +17,100 @@ class Model;
 class Operator;
 class SelectionSet;
 
-enum class ViewEvent : unsigned int { ATTACH_MODEL,
-                                      DETACH_MODEL, 
-                                      WINDOW_RESIZE,
-                                      // View settings changes
-                                      VIEWER_SETTINGS_CHANGE
-                                    };
-
-struct ViewSettings {
-    glm::vec3 background_color = glm::vec3(1.0,1.0,0.0);
+enum class ViewEvent : unsigned int
+{
+    ATTACH_MODEL,
+    DETACH_MODEL,
+    WINDOW_RESIZE,
+    // View settings changes
+    VIEWER_SETTINGS_CHANGE
 };
 
-class AttachModelInfo: public EventInfo {
+struct ViewSettings
+{
+    glm::vec3 background_color = glm::vec3(1.0, 1.0, 0.0);
+};
+
+class AttachModelInfo : public EventInfo
+{
     public:
-        AttachModelInfo(Model & model) : 
-            EventInfo(),  model(model) {}
-        
-        Model & ModelRef() const { return model; }
+    AttachModelInfo(Model& model) : EventInfo(), model(model)
+    {
+    }
+
+    Model& ModelRef() const
+    {
+        return model;
+    }
 
     private:
-        Model & model;
+    Model& model;
 };
 
-class WindowResizeInfo: public EventInfo {
+class WindowResizeInfo : public EventInfo
+{
     public:
-        WindowResizeInfo(int width, int height) : 
-            EventInfo(),  width(width), height(height) {}
-        
-        const int & Width() const { return width; }
-        const int & Height() const { return height; }
+    WindowResizeInfo(int width, int height) : EventInfo(), width(width), height(height)
+    {
+    }
+
+    const int& Width() const
+    {
+        return width;
+    }
+    const int& Height() const
+    {
+        return height;
+    }
 
     private:
-        int width;
-        int height;
+    int width;
+    int height;
 };
 
-class View : public Subject<ViewEvent>, public MouseEventsDispatcher, public KeyboardEventsDispatcher {
+class View : public Subject<ViewEvent>, public MouseEventsDispatcher, public KeyboardEventsDispatcher
+{
     friend class CameraOperator;
     friend class ViewAdapter;
 
     public:
-        View();
-        View(const View &)=delete;
-        View & operator=(const View &)=delete;
-        virtual ~View();
+    View();
+    View(const View&) = delete;
+    View& operator=(const View&) = delete;
+    virtual ~View();
 
-        void AttachModel(Model * model);
-        void DetachModel();
-        Model * ModelPtr();
+    void AttachModel(Model* model);
+    void DetachModel();
+    Model* ModelPtr();
 
-        void AttachOperator(Operator * opr);
-        void DetachOperator();
-        Operator * OperatorPtr();
+    void AttachOperator(Operator* opr);
+    void DetachOperator();
+    Operator* OperatorPtr();
 
-        void Redraw();
+    void Redraw();
 
-        void WindowResize(int width, int height);
+    void WindowResize(int width, int height);
 
-        // Viewer settings setters
-        void SetBackgroundColor(const glm::vec3 & background_color);
+    // Viewer settings setters
+    void SetBackgroundColor(const glm::vec3& background_color);
 
-        SelectionSet & GetSelectionSet();
+    SelectionSet& GetSelectionSet();
 
     protected:
-        Camera & CameraRef();
-        Projection & ProjectionRef();
-        const ViewSettings & ViewSettingsRef() const;
-        float ScreenDepthAt(int x, int y) const;
+    Camera& CameraRef();
+    Projection& ProjectionRef();
+    const ViewSettings& ViewSettingsRef() const;
+    float ScreenDepthAt(int x, int y) const;
 
     private:
-        ViewSettings view_settings;
+    ViewSettings view_settings;
 
-        std::unique_ptr<Projection> projection;     
-        std::unique_ptr<Camera> camera;
-        std::unique_ptr<SelectionSet> selection_set;
-        std::unique_ptr<ViewAdapter> view_adapter;
-        Model * model;
-        Operator * opr;
+    std::unique_ptr<Projection> projection;
+    std::unique_ptr<Camera> camera;
+    std::unique_ptr<SelectionSet> selection_set;
+    std::unique_ptr<ViewAdapter> view_adapter;
+    Model* model;
+    Operator* opr;
 };
 
 #endif

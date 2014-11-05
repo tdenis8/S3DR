@@ -11,42 +11,40 @@ Build requirements
 ------------------
 
 * Main requirements:
-  * C++11 compiler (GCC, Clang)
-  * GLM header only library - http://glm.g-truc.net/0.9.4/index.html
-  * GLEW library - http://glew.sourceforge.net/
-  * premake4 - http://industriousone.com/premake
+    * C++11 standard compiler (GCC, Clang)
+    * CMake - http://www.cmake.org/
+    * GLM header only library - http://glm.g-truc.net/0.9.4/index.html
+    * GLEW library - http://glew.sourceforge.net/
+    * ImageMagick - www.imagemagick.org/
+    * FreeType 2 - www.freetype.org/freetype2/
 
-* Required to compile library tests and examples:
-  * GLFW library - http://www.glfw.org/
+* Additionally required to compile a S3DR utility library:
+    * Assimp library - http://assimp.sourceforge.net/  
 
-* Required to compile a S3DR utility library:
-  * Assimp library - http://assimp.sourceforge.net/
+* Additionally required to compile library tests and examples:
+    * GLFW library - http://www.glfw.org/
+
 
 Building
 --------
 
-Clone a copy of the main S3DR git repo:
+In a local copy of the S3DR repository:
 
 ```bash
-git clone git@github.com:tdenis8/S3DR.git
+mkdir build
+cd build
 ```
 
-Enter the S3DR directory:
+Run cmake:
 
 ```bash
-cd S3DR
+cmake ..
 ```
 
-Generate makefiles:
+Compile S3DR library:
 
 ```bash
-premake4 gmake
-```
-
-Compile S3DR library (S3DR/lib/libs3dr.a):
-
-```bash
-make config=release verbose=true -j 4
+make -j4
 ```
 
 Main components of the S3DR library
@@ -66,4 +64,4 @@ Main components of the S3DR library
 Usage
 -----
 
-TODO
+See tests folder for a basic examples.

@@ -22,6 +22,10 @@ TODO:
 15 - Update adapters (use text adapter as reference)
 16 + Fixs Shader class (add zero-termination character)
 17 - Introduce view settings class ( out of open_gl ...)
+18 - Move all tests out lib folders into one common for tests.
+19 - Add license and some info in the font rendering files that are writed based on a third party library (freetype-gl lib)
+20 + Update README.md (premake to cmake, ImageMagick, freetype2...)
+
 
 ==================================
 BUGS:

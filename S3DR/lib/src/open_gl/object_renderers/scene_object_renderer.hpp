@@ -7,20 +7,22 @@
 
 class SceneObjectAdapter;
 
-class SceneObjectRenderer {
-	public:
-		SceneObjectRenderer();
-		~SceneObjectRenderer();
-		SceneObjectRenderer(const SceneObjectRenderer &)=delete;
-		SceneObjectRenderer & operator=(const SceneObjectRenderer &)=delete;
+class SceneObjectRenderer
+{
+    public:
+    SceneObjectRenderer() = delete;
+    SceneObjectRenderer(const std::vector<Shader> &shader_list);
+    SceneObjectRenderer(const SceneObjectRenderer &) = delete;
+    SceneObjectRenderer &operator=(const SceneObjectRenderer &) = delete;
+    virtual ~SceneObjectRenderer();
 
-		void ActivateProgram();
-		void DeactivateProgram();
+    void ActivateProgram();
+    void DeactivateProgram();
 
-		Program & ProgramRef();
+    Program &GetProgram();
 
-	protected:
-		std::shared_ptr<Program> program;
+    protected:
+    Program program_;
 };
 
 #endif

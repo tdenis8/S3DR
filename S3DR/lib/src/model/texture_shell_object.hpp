@@ -30,12 +30,12 @@ struct TextureShellData
 
 class TextureShellObject : public SceneObject
 {
-public:
+    public:
     TextureShellObject() = delete;
     explicit TextureShellObject(SceneObject *parent, std::string name, int priority = 1);
     TextureShellObject(const TextureShellObject &) = delete;
     TextureShellObject &operator=(const TextureShellObject &) = delete;
-    virtual ~TextureShellObject();
+    ~TextureShellObject();
 
     void AppendData(const std::vector<glm::vec3> &vertices,
                     const std::vector<glm::vec2> &texture_coords,
@@ -48,10 +48,10 @@ public:
                     const std::vector<glm::ivec3> &indices,
                     const std::string &texture_path);
 
-    const TextureShellData &TextureShellDataRef();
+    const TextureShellData &GetTextureShellData();
 
-private:
-    TextureShellData texture_shell_data;
+    private:
+    TextureShellData texture_shell_data_;
 };
 
 #endif

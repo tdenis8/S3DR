@@ -20,7 +20,7 @@ class SceneObject : public Subject<SceneObjectEvents>, Observer, public Geometry
 {
     friend class Model;
 
-public:
+    public:
     SceneObject() = delete;
     SceneObject(SceneObject *parent, std::string name, int priority);
     SceneObject(const SceneObject &) = delete;
@@ -37,17 +37,17 @@ public:
     bool TestObjectOption(unsigned int option);
     unsigned int GetObjectOptions();
 
-private:
+    private:
     void ParentModelMatrixChange(const EventInfo &info);
     void CalculateModelMatrix();
     void SetKey(int key);
 
-    SceneObject *parent;
-    int key;
-    std::string name;
-    int priority;
-    glm::mat4 combine_model_matrix;
-    unsigned int object_options;
+    SceneObject *parent_;
+    int key_;
+    std::string name_;
+    int priority_;
+    glm::mat4 combine_model_matrix_;
+    unsigned int object_options_;
 };
 
 #endif

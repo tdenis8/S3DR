@@ -39,12 +39,12 @@ enum class ShellOption : int
 
 class ShellObject : public SceneObject
 {
-public:
+    public:
     ShellObject() = delete;
     explicit ShellObject(SceneObject *parent, std::string name, int priority);
     ShellObject(const ShellObject &) = delete;
     ShellObject &operator=(const ShellObject &) = delete;
-    virtual ~ShellObject();
+    ~ShellObject();
 
     void AppendData(const std::vector<glm::vec3> &vertices,
                     const std::vector<glm::vec4> &colors,
@@ -57,10 +57,10 @@ public:
 
     void Highlight(bool highlight);
 
-    const ShellData &ShellDataRef();
-    const ShellMaterial &ShellMaterialRef();
+    const ShellData &GetShellData();
+    const ShellMaterial &GetShellMaterial();
 
-private:
+    private:
     ShellData shell_data;
     ShellMaterial shell_material;
 };

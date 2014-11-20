@@ -12,7 +12,7 @@ class TextureShellAdapter;
 
 class TextureShellRenderer : public SceneObjectRenderer
 {
-public:
+    public:
     TextureShellRenderer();
     TextureShellRenderer(const TextureShellRenderer &) = delete;
     TextureShellRenderer &operator=(const TextureShellRenderer &) = delete;
@@ -24,14 +24,14 @@ public:
 
     void Render(const glm::mat4 &view, const glm::mat4 &projection, int priority);
 
-private:
-    void InitProgram();
+    private:
+    static std::vector<Shader> GetShaderList();
 
     void SetModelToCameraMatrixPA(const glm::mat4 &model_to_camera_matrix);
     void SetCameraToClipMatrixPA(const glm::mat4 &camera_to_clip);
     void SetNormalModelToCameraMatrixPA(const glm::mat3 &normal_model_to_camera_matrix);
 
-    std::vector<TextureShellAdapter *> texture_shell_adapters[3];
+    std::vector<TextureShellAdapter *> texture_shell_adapters_[3];
 };
 
 #endif

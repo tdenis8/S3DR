@@ -12,7 +12,7 @@ class LineAdapter;
 
 class LineRenderer : public SceneObjectRenderer
 {
-public:
+    public:
     LineRenderer();
     LineRenderer(const LineRenderer &) = delete;
     LineRenderer &operator=(const LineRenderer &) = delete;
@@ -24,12 +24,12 @@ public:
 
     void Render(const glm::mat4 &view, const glm::mat4 &projection, int priority);
 
-private:
-    void InitProgram();
+    private:
+    static std::vector<Shader> GetShaderList();
 
     void SetModelToClipMatrixPA(const glm::mat4 &model_to_clip_matrix);
 
-    std::vector<LineAdapter *> line_adapters[3];
+    std::vector<LineAdapter *> line_adapters_[3];
 };
 
 #endif

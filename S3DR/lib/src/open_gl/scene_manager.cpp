@@ -30,7 +30,7 @@ SceneManager::SceneManager(SceneSettings& scene_settings) try : Observer(),
                            std::bind(&SceneManager::LightsChanged, this, std::placeholders::_1),
                            this);
 }
-catch (CustomExp e)
+catch(CustomExp e)
 {
     glDeleteBuffers(1, &lights_UBO);
     scene_settings.RemoveObservers(this);
@@ -54,16 +54,16 @@ void SceneManager::InitUBOs()
 void SceneManager::ConnectUBOsAndPrograms()
 {
     int lights_binding_index = 0;
-    GLuint UBO_index = shell_renderer.ProgramRef().UniformBlock("LightsBlock");
-    glUniformBlockBinding(shell_renderer.ProgramRef().ProgramObject(), UBO_index, lights_binding_index);
+    GLuint UBO_index = shell_renderer.GetProgram().GetUniformBlock("LightsBlock");
+    glUniformBlockBinding(shell_renderer.GetProgram().ProgramObject(), UBO_index, lights_binding_index);
     glBindBufferRange(GL_UNIFORM_BUFFER, lights_binding_index, lights_UBO, 0, sizeof(LightsBlock));
 
-    // UBO_index = texture_shell_renderer->ProgramRef().UniformBlock("LightsBlock");
+    // UBO_index = texture_shell_renderer->ProgramRef().GetUniformBlock("LightsBlock");
     // glUniformBlockBinding(texture_shell_renderer->ProgramRef().ProgramObject(), UBO_index, lights_binding_index);
     // glBindBufferRange(GL_UNIFORM_BUFFER, lights_binding_index, lights_UBO, 0, sizeof(LightsBlock));
 
     // transparency_renderer->ActivateProgram(DDPPassType::PEEL);
-    // UBO_index = transparency_renderer->ProgramRef().UniformBlock("LightsBlock");
+    // UBO_index = transparency_renderer->ProgramRef().GetUniformBlock("LightsBlock");
     // glUniformBlockBinding(transparency_renderer->ProgramRef().ProgramObject(), UBO_index, lights_binding_index);
     // glBindBufferRange(GL_UNIFORM_BUFFER, lights_binding_index, lights_UBO, 0, sizeof(LightsBlock));
 }

@@ -1,23 +1,24 @@
 #include "scene_object_renderer.hpp"
 
-SceneObjectRenderer::SceneObjectRenderer():
-	program(nullptr)
+SceneObjectRenderer::SceneObjectRenderer(const std::vector<Shader>& shader_list) : program_(shader_list)
 {
-
 }
 
-SceneObjectRenderer::~SceneObjectRenderer(){
-	
+SceneObjectRenderer::~SceneObjectRenderer()
+{
 }
 
-void SceneObjectRenderer::ActivateProgram(){
-	glUseProgram(program->ProgramObject());
+void SceneObjectRenderer::ActivateProgram()
+{
+    glUseProgram(program_.ProgramObject());
 }
 
-void SceneObjectRenderer::DeactivateProgram(){
-	glUseProgram(0);
+void SceneObjectRenderer::DeactivateProgram()
+{
+    glUseProgram(0);
 }
 
-Program & SceneObjectRenderer::ProgramRef(){
-	return *program;
+Program& SceneObjectRenderer::GetProgram()
+{
+    return program_;
 }

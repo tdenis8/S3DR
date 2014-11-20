@@ -12,7 +12,7 @@ class PointAdapter;
 
 class PointRenderer : public SceneObjectRenderer
 {
-public:
+    public:
     PointRenderer();
     PointRenderer(const PointRenderer &) = delete;
     PointRenderer &operator=(const PointRenderer &) = delete;
@@ -24,12 +24,12 @@ public:
 
     void Render(const glm::mat4 &view, const glm::mat4 &projection, int priority);
 
-private:
-    void InitProgram();
+    private:
+    static std::vector<Shader> GetShaderList();
 
     void SetModelToClipMatrixPA(const glm::mat4 &model_to_clip_matrix);
 
-    std::vector<PointAdapter *> point_adapters[3];
+    std::vector<PointAdapter *> point_adapters_[3];
 };
 
 #endif

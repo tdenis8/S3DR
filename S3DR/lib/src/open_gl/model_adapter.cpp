@@ -10,33 +10,31 @@
 #include "scene_manager.hpp"
 
 ModelAdapter::ModelAdapter(Model& model, SceneManager& scene_manager)
-    : Observer(), model(model), scene_manager(scene_manager)
+    : Observer(), model_(model), scene_manager_(scene_manager)
 {
-    std::vector<SceneObject*> scene_objects = model.GetSceneObjects();
+    std::vector<SceneObject*> scene_objects = model_.GetSceneObjects();
     for(auto scene_object_ptr : scene_objects)
     {
         NewSceneObject(SceneObjectInfo(scene_object_ptr));
     }
 
-    model.Observe(
+    model_.Observe(
         ModelEvents::NEW_SCENE_OBJECT, std::bind(&ModelAdapter::NewSceneObject, this, std::placeholders::_1), this);
 
-    model.Observe(ModelEvents::REMOVE_SCENE_OBJECT,
-                  std::bind(&ModelAdapter::RemoveSceneObject, this, std::placeholders::_1),
-                  this);
+    model_.Observe(ModelEvents::REMOVE_SCENE_OBJECT,
+                   std::bind(&ModelAdapter::RemoveSceneObject, this, std::placeholders::_1),
+                   this);
 
-    model.Observe(ModelEvents::RESET_MODEL, std::bind(&ModelAdapter::ResetModel, this, std::placeholders::_1), this);
+    model_.Observe(ModelEvents::RESET_MODEL, std::bind(&ModelAdapter::ResetModel, this, std::placeholders::_1), this);
 }
 
 ModelAdapter::~ModelAdapter()
 {
-    model.RemoveObservers(this);
+    model_.RemoveObservers(this);
 }
 
-#include <iostream>
 void ModelAdapter::NewSceneObject(const EventInfo& info)
 {
-    std::cout << __FUNCTION__ << ": ";
     const SceneObjectInfo& so_info = dynamic_cast<const SceneObjectInfo&>(info);
     SceneObject* scene_object = so_info.GetSceneObject();
 
@@ -46,37 +44,30 @@ void ModelAdapter::NewSceneObject(const EventInfo& info)
         {
             // TransparencyRenderer & transparency_renderer = scene_manager.TransparencyRendererRef();
             // transparency_renderer.AttachShellAdapter(shell_adapter);
-            std::cout << "ShellObject Transparent" << std::endl;
         }
         else
         {
-            AttachtToShellRenderer(shell_object_ptr);
-            std::cout << "ShellObject" << std::endl;
+            AttachtToShellRenderer(*shell_object_ptr);
         }
     }
     else if(TextureShellObject* texture_shell_object_ptr = dynamic_cast<TextureShellObject*>(scene_object))
     {
-        AttachtToTextureShellRenderer(texture_shell_object_ptr);
-        std::cout << "TextureShellObject" << std::endl;
+        AttachtToTextureShellRenderer(*texture_shell_object_ptr);
     }
     else if(LineObject* line_object_ptr = dynamic_cast<LineObject*>(scene_object))
     {
-        AttachtToLineRenderer(line_object_ptr);
-        std::cout << "LineObject" << std::endl;
+        AttachtToLineRenderer(*line_object_ptr);
     }
     else if(PointObject* point_object_ptr = dynamic_cast<PointObject*>(scene_object))
     {
-        std::cout << "PointObject" << std::endl;
-        AttachtToPointRenderer(point_object_ptr);
+        AttachtToPointRenderer(*point_object_ptr);
     }
     else if(TextObject* text_object_ptr = dynamic_cast<TextObject*>(scene_object))
     {
-        std::cout << "TextObject" << std::endl;
-        AttachtToTextRenderer(text_object_ptr);
+        AttachtToTextRenderer(*text_object_ptr);
     }
     else
     {
-        std::cout << ":-)" << std::endl;
         return;
     }
 }
@@ -95,24 +86,24 @@ void ModelAdapter::RemoveSceneObject(const EventInfo& info)
         }
         else
         {
-            DetachFromShellRenderer(shell_object_ptr);
+            DetachFromShellRenderer(*shell_object_ptr);
         }
     }
     else if(TextureShellObject* texture_shell_object_ptr = dynamic_cast<TextureShellObject*>(scene_object))
     {
-        DetachFromTextureShellRenderer(texture_shell_object_ptr);
+        DetachFromTextureShellRenderer(*texture_shell_object_ptr);
     }
     else if(LineObject* line_object_ptr = dynamic_cast<LineObject*>(scene_object))
     {
-        DetachFromLineRenderer(line_object_ptr);
+        DetachFromLineRenderer(*line_object_ptr);
     }
     else if(PointObject* point_object_ptr = dynamic_cast<PointObject*>(scene_object))
     {
-        DetachFromPointRenderer(point_object_ptr);
+        DetachFromPointRenderer(*point_object_ptr);
     }
     else if(TextObject* text_object_ptr = dynamic_cast<TextObject*>(scene_object))
     {
-        DetachFromTextRenderer(text_object_ptr);
+        DetachFromTextRenderer(*text_object_ptr);
     }
     else
     {
@@ -122,175 +113,164 @@ void ModelAdapter::RemoveSceneObject(const EventInfo& info)
 
 void ModelAdapter::ResetModel(const EventInfo& info)
 {
-    scene_manager.GetShellRenderer().Reset();
-    scene_manager.GetTransparencyRenderer().Reset();
-    scene_manager.GetTextureShellRenderer().Reset();
-    scene_manager.GetSelectionRenderer().Reset();
-    scene_manager.GetLineRenderer().Reset();
-    scene_manager.GetPointRenderer().Reset();
-    scene_manager.GetTextRenderer().Reset();
+    scene_manager_.GetShellRenderer().Reset();
+    scene_manager_.GetTransparencyRenderer().Reset();
+    scene_manager_.GetTextureShellRenderer().Reset();
+    scene_manager_.GetSelectionRenderer().Reset();
+    scene_manager_.GetLineRenderer().Reset();
+    scene_manager_.GetPointRenderer().Reset();
+    scene_manager_.GetTextRenderer().Reset();
 
-    scene_object_adapters.clear();
+    scene_object_adapters_.clear();
 }
 
-void ModelAdapter::AttachtToShellRenderer(ShellObject* shell_object_ptr)
+void ModelAdapter::AttachtToShellRenderer(ShellObject& shell_object)
 {
-    scene_object_adapters.push_back(std::unique_ptr<ShellAdapter>(new ShellAdapter(shell_object_ptr)));
-    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters.back().get();
+    scene_object_adapters_.push_back(std::unique_ptr<ShellAdapter>(new ShellAdapter(shell_object)));
+    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters_.back().get();
 
     ShellAdapter* shell_adapter_ptr = dynamic_cast<ShellAdapter*>(scene_object_adapter_ptr);
-    ShellRenderer& shell_renderer = scene_manager.GetShellRenderer();
-    shell_renderer.AttachShellAdapter(shell_adapter_ptr);
+    scene_manager_.GetShellRenderer().AttachShellAdapter(shell_adapter_ptr);
 
     AttachtToSelectionRenderer(scene_object_adapter_ptr);
 }
 
-void ModelAdapter::AttachtToTextureShellRenderer(TextureShellObject* texture_shell_object_ptr)
+void ModelAdapter::AttachtToTextureShellRenderer(TextureShellObject& texture_shell_object)
 {
-    scene_object_adapters.push_back(
-        std::unique_ptr<TextureShellAdapter>(new TextureShellAdapter(texture_shell_object_ptr)));
-    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters.back().get();
+    scene_object_adapters_.push_back(
+        std::unique_ptr<TextureShellAdapter>(new TextureShellAdapter(texture_shell_object)));
+    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters_.back().get();
 
     TextureShellAdapter* texture_shell_adapter_ptr = dynamic_cast<TextureShellAdapter*>(scene_object_adapter_ptr);
-    TextureShellRenderer& texture_shell_renderer = scene_manager.GetTextureShellRenderer();
-    texture_shell_renderer.AttachTextureShellAdapter(texture_shell_adapter_ptr);
+    scene_manager_.GetTextureShellRenderer().AttachTextureShellAdapter(texture_shell_adapter_ptr);
 
     AttachtToSelectionRenderer(scene_object_adapter_ptr);
 }
 
-void ModelAdapter::AttachtToLineRenderer(LineObject* line_object_ptr)
+void ModelAdapter::AttachtToLineRenderer(LineObject& line_object)
 {
-    scene_object_adapters.push_back(std::unique_ptr<LineAdapter>(new LineAdapter(line_object_ptr)));
-    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters.back().get();
+    scene_object_adapters_.push_back(std::unique_ptr<LineAdapter>(new LineAdapter(line_object)));
+    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters_.back().get();
 
     LineAdapter* line_adapter_ptr = dynamic_cast<LineAdapter*>(scene_object_adapter_ptr);
-    LineRenderer& line_renderer = scene_manager.GetLineRenderer();
-    line_renderer.AttachLineAdapter(line_adapter_ptr);
+    scene_manager_.GetLineRenderer().AttachLineAdapter(line_adapter_ptr);
 
     AttachtToSelectionRenderer(scene_object_adapter_ptr);
 }
 
-void ModelAdapter::AttachtToPointRenderer(PointObject* point_object_ptr)
+void ModelAdapter::AttachtToPointRenderer(PointObject& point_object)
 {
-    scene_object_adapters.push_back(std::unique_ptr<PointAdapter>(new PointAdapter(point_object_ptr)));
-    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters.back().get();
+    scene_object_adapters_.push_back(std::unique_ptr<PointAdapter>(new PointAdapter(point_object)));
+    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters_.back().get();
 
     PointAdapter* point_adapter_ptr = dynamic_cast<PointAdapter*>(scene_object_adapter_ptr);
-    PointRenderer& point_renderer = scene_manager.GetPointRenderer();
-    point_renderer.AttachPointAdapter(point_adapter_ptr);
+    scene_manager_.GetPointRenderer().AttachPointAdapter(point_adapter_ptr);
 
     AttachtToSelectionRenderer(scene_object_adapter_ptr);
 }
 
-void ModelAdapter::AttachtToTextRenderer(TextObject* text_object_ptr)
+void ModelAdapter::AttachtToTextRenderer(TextObject& text_object)
 {
-    scene_object_adapters.push_back(std::unique_ptr<TextAdapter>(new TextAdapter(*text_object_ptr)));
-    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters.back().get();
+    scene_object_adapters_.push_back(std::unique_ptr<TextAdapter>(new TextAdapter(text_object)));
+    SceneObjectAdapter* scene_object_adapter_ptr = scene_object_adapters_.back().get();
 
     TextAdapter* text_adapter_ptr = dynamic_cast<TextAdapter*>(scene_object_adapter_ptr);
-    TextRenderer& text_renderer = scene_manager.GetTextRenderer();
-    text_renderer.AttachTextAdapter(text_adapter_ptr);
+    scene_manager_.GetTextRenderer().AttachTextAdapter(text_adapter_ptr);
 
     AttachtToSelectionRenderer(scene_object_adapter_ptr);
 }
 
 void ModelAdapter::AttachtToSelectionRenderer(SceneObjectAdapter* scene_object_adapter_ptr)
 {
-    SelectionRenderer& selection_renderer = scene_manager.GetSelectionRenderer();
-    selection_renderer.AttachSceneObjectAdapter(scene_object_adapter_ptr);
+    scene_manager_.GetSelectionRenderer().AttachSceneObjectAdapter(scene_object_adapter_ptr);
 }
 
-void ModelAdapter::DetachFromShellRenderer(ShellObject* shell_object_ptr)
+void ModelAdapter::DetachFromShellRenderer(ShellObject& shell_object)
 {
-    for(auto it = scene_object_adapters.begin(); it != scene_object_adapters.end(); ++it)
+    for(auto it = scene_object_adapters_.begin(); it != scene_object_adapters_.end(); ++it)
     {
-        if((*it)->GetKey() == shell_object_ptr->GetKey())
+        if((*it)->GetKey() == shell_object.GetKey())
         {
             SceneObjectAdapter* scene_object_adapter_ptr = (*it).get();
             DetachFromSelectionRenderer(scene_object_adapter_ptr);
 
             ShellAdapter* shell_adapter_ptr = dynamic_cast<ShellAdapter*>(scene_object_adapter_ptr);
-            ShellRenderer& shell_renderer = scene_manager.GetShellRenderer();
-            shell_renderer.DetachShellAdapter(shell_adapter_ptr);
+            scene_manager_.GetShellRenderer().DetachShellAdapter(shell_adapter_ptr);
 
-            scene_object_adapters.erase(it);
+            scene_object_adapters_.erase(it);
             break;
         }
     }
 }
 
-void ModelAdapter::DetachFromTextureShellRenderer(TextureShellObject* texture_shell_object_ptr)
+void ModelAdapter::DetachFromTextureShellRenderer(TextureShellObject& texture_shell_object)
 {
-    for(auto it = scene_object_adapters.begin(); it != scene_object_adapters.end(); ++it)
+    for(auto it = scene_object_adapters_.begin(); it != scene_object_adapters_.end(); ++it)
     {
-        if((*it)->GetKey() == texture_shell_object_ptr->GetKey())
+        if((*it)->GetKey() == texture_shell_object.GetKey())
         {
             SceneObjectAdapter* scene_object_adapter_ptr = (*it).get();
-
             DetachFromSelectionRenderer(scene_object_adapter_ptr);
+
             TextureShellAdapter* texture_shell_adapter_ptr =
                 dynamic_cast<TextureShellAdapter*>(scene_object_adapter_ptr);
-            TextureShellRenderer& texture_shell_renderer = scene_manager.GetTextureShellRenderer();
-            texture_shell_renderer.DetachTextureShellAdapter(texture_shell_adapter_ptr);
+            scene_manager_.GetTextureShellRenderer().DetachTextureShellAdapter(texture_shell_adapter_ptr);
 
-            scene_object_adapters.erase(it);
+            scene_object_adapters_.erase(it);
             break;
         }
     }
 }
 
-void ModelAdapter::DetachFromLineRenderer(LineObject* line_object_ptr)
+void ModelAdapter::DetachFromLineRenderer(LineObject& line_object)
 {
-    for(auto it = scene_object_adapters.begin(); it != scene_object_adapters.end(); ++it)
+    for(auto it = scene_object_adapters_.begin(); it != scene_object_adapters_.end(); ++it)
     {
-        if((*it)->GetKey() == line_object_ptr->GetKey())
+        if((*it)->GetKey() == line_object.GetKey())
         {
             SceneObjectAdapter* scene_object_adapter_ptr = (*it).get();
             DetachFromSelectionRenderer(scene_object_adapter_ptr);
 
             LineAdapter* line_adapter_ptr = dynamic_cast<LineAdapter*>(scene_object_adapter_ptr);
-            LineRenderer& line_renderer = scene_manager.GetLineRenderer();
-            line_renderer.DetachLineAdapter(line_adapter_ptr);
+            scene_manager_.GetLineRenderer().DetachLineAdapter(line_adapter_ptr);
 
-            scene_object_adapters.erase(it);
+            scene_object_adapters_.erase(it);
             break;
         }
     }
 }
 
-void ModelAdapter::DetachFromPointRenderer(PointObject* point_object_ptr)
+void ModelAdapter::DetachFromPointRenderer(PointObject& point_object)
 {
-    for(auto it = scene_object_adapters.begin(); it != scene_object_adapters.end(); ++it)
+    for(auto it = scene_object_adapters_.begin(); it != scene_object_adapters_.end(); ++it)
     {
-        if((*it)->GetKey() == point_object_ptr->GetKey())
+        if((*it)->GetKey() == point_object.GetKey())
         {
             SceneObjectAdapter* scene_object_adapter_ptr = (*it).get();
             DetachFromSelectionRenderer(scene_object_adapter_ptr);
 
             PointAdapter* point_adapter_ptr = dynamic_cast<PointAdapter*>(scene_object_adapter_ptr);
-            PointRenderer& point_renderer = scene_manager.GetPointRenderer();
-            point_renderer.DetachPointAdapter(point_adapter_ptr);
+            scene_manager_.GetPointRenderer().DetachPointAdapter(point_adapter_ptr);
 
-            scene_object_adapters.erase(it);
+            scene_object_adapters_.erase(it);
             break;
         }
     }
 }
 
-void ModelAdapter::DetachFromTextRenderer(TextObject* text_object_ptr)
+void ModelAdapter::DetachFromTextRenderer(TextObject& text_object)
 {
-    for(auto it = scene_object_adapters.begin(); it != scene_object_adapters.end(); ++it)
+    for(auto it = scene_object_adapters_.begin(); it != scene_object_adapters_.end(); ++it)
     {
-        if((*it)->GetKey() == text_object_ptr->GetKey())
+        if((*it)->GetKey() == text_object.GetKey())
         {
             SceneObjectAdapter* scene_object_adapter_ptr = (*it).get();
             DetachFromSelectionRenderer(scene_object_adapter_ptr);
 
             TextAdapter* text_adapter_ptr = dynamic_cast<TextAdapter*>(scene_object_adapter_ptr);
-            TextRenderer& text_renderer = scene_manager.GetTextRenderer();
-            text_renderer.DetachTextAdapter(text_adapter_ptr);
+            scene_manager_.GetTextRenderer().DetachTextAdapter(text_adapter_ptr);
 
-            scene_object_adapters.erase(it);
+            scene_object_adapters_.erase(it);
             break;
         }
     }
@@ -298,6 +278,5 @@ void ModelAdapter::DetachFromTextRenderer(TextObject* text_object_ptr)
 
 void ModelAdapter::DetachFromSelectionRenderer(SceneObjectAdapter* scene_object_adapter_ptr)
 {
-    SelectionRenderer& selection_renderer = scene_manager.GetSelectionRenderer();
-    selection_renderer.DetachSceneObjectAdapter(scene_object_adapter_ptr);
+    scene_manager_.GetSelectionRenderer().DetachSceneObjectAdapter(scene_object_adapter_ptr);
 }

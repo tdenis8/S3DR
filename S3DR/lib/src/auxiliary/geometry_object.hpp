@@ -7,7 +7,7 @@
 
 class GeometryObject
 {
-public:
+    public:
     GeometryObject();
     GeometryObject(const GeometryObject &) = delete;
     GeometryObject &operator=(const GeometryObject &) = delete;
@@ -23,14 +23,14 @@ public:
     void Scale(const glm::vec3 &scale_coef);
     void Rotate(const glm::vec3 &axis, float angle_in_deg);
 
-protected:
+    protected:
     void CalculateModelMatrix();
 
-private:
-    glm::vec3 position;
-    glm::vec3 scale_factor;
-    glm::fquat orientation;
-    glm::mat4 model_matrix;
+    private:
+    glm::vec3 position_;
+    glm::vec3 scale_factor_;
+    glm::fquat orientation_;
+    glm::mat4 model_matrix_;
 };
 
 #endif

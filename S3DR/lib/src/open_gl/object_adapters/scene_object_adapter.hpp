@@ -11,7 +11,7 @@
 
 class SceneObjectAdapter : public Observer
 {
-public:
+    public:
     SceneObjectAdapter() = delete;
     SceneObjectAdapter(SceneObject &scene_object);
     SceneObjectAdapter(const SceneObjectAdapter &) = delete;
@@ -26,13 +26,13 @@ public:
     virtual void SelectionRender(std::function<void(int)> set_scene_object_key,
                                  std::function<void(int)> set_entry_index) = 0;
 
-protected:
+    protected:
     virtual void UpdateData() = 0;
 
-private:
+    private:
     void SceneObjectDataUpdate(const EventInfo &info);
 
-    SceneObject &scene_object;
+    SceneObject &scene_object_;
 };
 
 #endif

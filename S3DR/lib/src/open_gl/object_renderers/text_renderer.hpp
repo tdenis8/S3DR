@@ -12,7 +12,7 @@ class TextAdapter;
 
 class TextRenderer : public SceneObjectRenderer
 {
-public:
+    public:
     TextRenderer();
     TextRenderer(const TextRenderer &) = delete;
     TextRenderer &operator=(const TextRenderer &) = delete;
@@ -26,8 +26,8 @@ public:
 
     void Render();
 
-private:
-    void InitProgram();
+    private:
+    static std::vector<Shader> GetShaderList();
 
     void SetModelToClipMatrixPA(const glm::mat4 &model_to_clip_matrix);
 

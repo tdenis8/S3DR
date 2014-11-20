@@ -34,10 +34,8 @@ enum class TextObjectEvents : unsigned int
 
 class TextObjectInfo : public EventInfo
 {
-public:
-    TextObjectInfo(const TextEntry &entry)
-        : EventInfo()
-        , entry_(entry)
+    public:
+    TextObjectInfo(const TextEntry &entry) : EventInfo(), entry_(entry)
     {
     }
 
@@ -46,18 +44,18 @@ public:
         return entry_;
     }
 
-private:
+    private:
     const TextEntry &entry_;
 };
 
 class TextObject : public SceneObject, public Subject<TextObjectEvents>
 {
-public:
+    public:
     TextObject() = delete;
     explicit TextObject(SceneObject *parent, const std::string &name, unsigned int size, int priority = 1);
     TextObject(const TextObject &) = delete;
     TextObject &operator=(const TextObject &) = delete;
-    virtual ~TextObject();
+    ~TextObject();
 
     void SetFontNameAndFontSize(const std::string &font_name, unsigned int font_size);
 
@@ -72,7 +70,7 @@ public:
     const std::vector<TextEntry> &GetStaticTextEntries();
     const std::vector<TextEntry> &GetDynamicTextEntries();
 
-private:
+    private:
     // type == 0 for static text, type == 1 for dynamic text
     int AddText(unsigned int type, const std::wstring &text, const glm::vec4 &color, unsigned int x, unsigned int y);
     void RemoveText(unsigned int type, unsigned int text_key);

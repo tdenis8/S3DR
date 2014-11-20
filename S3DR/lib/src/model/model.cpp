@@ -4,7 +4,7 @@
 
 #include "scene_object.hpp"
 
-Model::Model(const std::string& name) : Subject(), id_counter(0), name(name)
+Model::Model(const std::string& name) : Subject(), id_counter_(0), name_(name)
 {
 }
 
@@ -15,21 +15,21 @@ Model::~Model()
 
 int Model::InsertSceneObject(std::unique_ptr<SceneObject>& scene_object)
 {
-    int key = id_counter++;
+    int key = id_counter_++;
     scene_object->SetKey(key);
-    scene_objects.push_back(std::move(scene_object));
-    Emit(ModelEvents::NEW_SCENE_OBJECT, SceneObjectInfo(scene_objects.back().get()));
+    scene_objects_.push_back(std::move(scene_object));
+    Emit(ModelEvents::NEW_SCENE_OBJECT, SceneObjectInfo(scene_objects_.back().get()));
     return key;
 }
 
 void Model::RemoveSceneObject(int key)
 {
-    for(auto it = scene_objects.begin(); it != scene_objects.end(); ++it)
+    for(auto it = scene_objects_.begin(); it != scene_objects_.end(); ++it)
     {
         if((*it)->GetKey() == key)
         {
             Emit(ModelEvents::REMOVE_SCENE_OBJECT, SceneObjectInfo((*it).get()));
-            scene_objects.erase(it);
+            scene_objects_.erase(it);
             break;
         }
     }
@@ -38,13 +38,13 @@ void Model::RemoveSceneObject(int key)
 void Model::Reset()
 {
     Emit(ModelEvents::RESET_MODEL);
-    scene_objects.clear();
+    scene_objects_.clear();
 }
 
 std::vector<SceneObject*> Model::GetSceneObjects()
 {
     std::vector<SceneObject*> rv;
-    for(auto& scene_object_ptr : scene_objects)
+    for(auto& scene_object_ptr : scene_objects_)
     {
         rv.push_back(scene_object_ptr.get());
     }
@@ -53,7 +53,7 @@ std::vector<SceneObject*> Model::GetSceneObjects()
 
 SceneObject* Model::GetSceneObject(int key)
 {
-    for(auto& scene_object_ptr : scene_objects)
+    for(auto& scene_object_ptr : scene_objects_)
     {
         if(scene_object_ptr->GetKey() == key)
         {
@@ -64,7 +64,7 @@ SceneObject* Model::GetSceneObject(int key)
     throw CustomExp(error);
 }
 
-const std::string& Model::Name() const
+const std::string& Model::GetName() const
 {
-    return name;
+    return name_;
 }

@@ -1,6 +1,8 @@
 #ifndef _TRANSPARENCY_RENDERER_H_
 #define _TRANSPARENCY_RENDERER_H_
 
+#include "misc/dual_depth_peeling.hpp"
+
 #include "scene_object_renderer.hpp"
 
 #define GLM_FORCE_RADIANS
@@ -24,11 +26,11 @@ class TransparencyRenderer : public SceneObjectRenderer
 {
     friend DualDepthPeeling;
 
-public:
+    public:
     TransparencyRenderer();
-    ~TransparencyRenderer();
     TransparencyRenderer(const TransparencyRenderer &) = delete;
     TransparencyRenderer &operator=(const TransparencyRenderer &) = delete;
+    ~TransparencyRenderer();
 
     void ActivateProgram(DDPPassType type);
     void DeactivateProgram();
@@ -41,8 +43,13 @@ public:
 
     void Render(const glm::mat4 &view, const glm::mat4 &projection, int priority);
 
-private:
-    void InitPrograms();
+    private:
+    static std::vector<Shader> GetEmptyShaderList();
+    static std::vector<Shader> GetInitProgramShaderList();
+    static std::vector<Shader> GetPillProgramShaderList();
+    static std::vector<Shader> GetBlendProgramShaderList();
+    static std::vector<Shader> GetFinalProgramShaderList();
+
     void SetModelToClipMatrixPA(const glm::mat4 &model_to_clip_matrix);
     void SetModelToCameraMatrixPA(const glm::mat4 &model_to_camera_matrix);
     void SetNormalModelToCameraMatrixPA(const glm::mat3 &normal_model_to_camera_matrix);
@@ -50,14 +57,14 @@ private:
     void BindTexture(GLenum target, std::string texname, GLuint texid, int texunit);
     void SetAlphaPA(float alpha);
 
-    std::shared_ptr<Program> init_program;
-    std::shared_ptr<Program> peel_program;
-    std::shared_ptr<Program> blend_program;
-    std::shared_ptr<Program> final_program;
+    Program init_program_;
+    Program peel_program_;
+    Program blend_program_;
+    Program final_program_;
 
-    std::shared_ptr<DualDepthPeeling> dual_depth_peeling;
+    DualDepthPeeling dual_depth_peeling_;
 
-    std::vector<ShellAdapter *> shell_adapters[3];
+    std::vector<ShellAdapter *> shell_adapters_[3];
 };
 
 #endif

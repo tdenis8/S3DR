@@ -6,19 +6,24 @@
 #include <vector>
 #include <string>
 
-class Program { 
+class Program
+{
     public:
-        Program(const std::vector<Shader>& shaders);
-        ~Program();
-        Program(const Program &) = delete;
-        Program & operator=(const Program &) = delete;
+    Program() = delete;
+    Program(const std::vector<Shader> &shaders);
+    Program(const Program &) = delete;
+    Program &operator=(const Program &other);
+    ~Program();
 
-        GLuint ProgramObject() const;
-        GLuint Uniform(const std::string & uniform_name) const;
-        GLuint UniformBlock(const std::string & uniform_block_name) const;
+    GLuint ProgramObject() const;
+    GLuint GetUniform(const std::string &uniform_name) const;
+    GLuint GetUniformBlock(const std::string &uniform_block_name) const;
 
     private:
-    	GLuint program_obj;
+    void CompileShaders(const std::vector<Shader> &shaders);
+
+    bool fake_program_;
+    GLuint program_obj_;
 };
-    
+
 #endif

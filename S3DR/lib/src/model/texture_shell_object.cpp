@@ -31,35 +31,35 @@ void TextureShellObject::AppendData(const std::vector<glm::vec3>& vertices,
 {
     TextureShellEntry new_entry = TextureShellEntry();
     new_entry.NumIndices = indices.size() * 3;
-    new_entry.VertexOffset = texture_shell_data.vertices.size();
-    new_entry.IndicesOffset = texture_shell_data.indices.size() * 3;
+    new_entry.VertexOffset = texture_shell_data_.vertices.size();
+    new_entry.IndicesOffset = texture_shell_data_.indices.size() * 3;
 
-    texture_shell_data.textures_paths.push_back(texture_path);
-    new_entry.TextureIndex = texture_shell_data.textures_paths.size() - 1;
+    texture_shell_data_.textures_paths.push_back(texture_path);
+    new_entry.TextureIndex = texture_shell_data_.textures_paths.size() - 1;
 
-    texture_shell_data.entries.push_back(std::move(new_entry));
+    texture_shell_data_.entries.push_back(std::move(new_entry));
 
     // Copy vertices
-    texture_shell_data.vertices.reserve(texture_shell_data.vertices.size() + vertices.size());
-    texture_shell_data.vertices.insert(texture_shell_data.vertices.end(), vertices.begin(), vertices.end());
+    texture_shell_data_.vertices.reserve(texture_shell_data_.vertices.size() + vertices.size());
+    texture_shell_data_.vertices.insert(texture_shell_data_.vertices.end(), vertices.begin(), vertices.end());
 
     // Copy normals
-    texture_shell_data.normals.reserve(texture_shell_data.normals.size() + normals.size());
-    texture_shell_data.normals.insert(texture_shell_data.normals.end(), normals.begin(), normals.end());
+    texture_shell_data_.normals.reserve(texture_shell_data_.normals.size() + normals.size());
+    texture_shell_data_.normals.insert(texture_shell_data_.normals.end(), normals.begin(), normals.end());
 
     // Copy texture_coords
-    texture_shell_data.texture_coords.reserve(texture_shell_data.texture_coords.size() + texture_coords.size());
-    texture_shell_data.texture_coords.insert(
-        texture_shell_data.texture_coords.end(), texture_coords.begin(), texture_coords.end());
+    texture_shell_data_.texture_coords.reserve(texture_shell_data_.texture_coords.size() + texture_coords.size());
+    texture_shell_data_.texture_coords.insert(
+        texture_shell_data_.texture_coords.end(), texture_coords.begin(), texture_coords.end());
 
     // Copy indices
-    texture_shell_data.indices.reserve(texture_shell_data.indices.size() + indices.size());
-    texture_shell_data.indices.insert(texture_shell_data.indices.end(), indices.begin(), indices.end());
+    texture_shell_data_.indices.reserve(texture_shell_data_.indices.size() + indices.size());
+    texture_shell_data_.indices.insert(texture_shell_data_.indices.end(), indices.begin(), indices.end());
 
     Emit(SceneObjectEvents::DATA_UPDATE);
 }
 
-const TextureShellData& TextureShellObject::TextureShellDataRef()
+const TextureShellData& TextureShellObject::GetTextureShellData()
 {
-    return texture_shell_data;
+    return texture_shell_data_;
 }

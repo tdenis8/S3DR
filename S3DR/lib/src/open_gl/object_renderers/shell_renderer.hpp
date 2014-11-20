@@ -12,7 +12,7 @@ class ShellAdapter;
 
 class ShellRenderer : public SceneObjectRenderer
 {
-public:
+    public:
     ShellRenderer();
     ShellRenderer(const ShellRenderer &) = delete;
     ShellRenderer &operator=(const ShellRenderer &) = delete;
@@ -24,8 +24,8 @@ public:
 
     void Render(const glm::mat4 &view, const glm::mat4 &projection, int priority);
 
-private:
-    void InitProgram();
+    private:
+    static std::vector<Shader> GetShaderList();
 
     void SetModelToCameraMatrixPA(const glm::mat4 &model_to_camera_matrix);
     void SetCameraToClipMatrixPA(const glm::mat4 &camera_to_clip);
@@ -33,7 +33,7 @@ private:
     void SetMaterialColorPA(const glm::vec4 &color);
     void SetMaterialStatusPA(int status);
 
-    std::vector<ShellAdapter *> shell_adapters[3];
+    std::vector<ShellAdapter *> shell_adapters_[3];
 };
 
 #endif

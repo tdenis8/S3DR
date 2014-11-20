@@ -27,7 +27,7 @@ struct LineData
 
 class LineObject : public SceneObject
 {
-public:
+    public:
     LineObject() = delete;
     explicit LineObject(SceneObject *parent, std::string name, int priority = 1);
     LineObject(const LineObject &) = delete;
@@ -38,10 +38,10 @@ public:
                     const std::vector<glm::vec4> &colors,
                     const std::vector<glm::ivec2> &indices);
 
-    const LineData &LineDataRef();
+    const LineData &GetLineData();
 
-private:
-    LineData line_data;
+    private:
+    LineData line_data_;
 };
 
 #endif

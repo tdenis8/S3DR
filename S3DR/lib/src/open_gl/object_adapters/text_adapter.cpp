@@ -3,7 +3,8 @@
 #include "utility/custom_operators.hpp"
 #include "open_gl/misc/base_texture.hpp"
 
-template <typename T, unsigned size> inline unsigned ARRAY_SIZE(const T (&array)[size])
+template <typename T, unsigned size>
+inline unsigned ARRAY_SIZE(const T (&array)[size])
 {
     return size;
 }
@@ -12,10 +13,8 @@ template <typename T, unsigned size> inline unsigned ARRAY_SIZE(const T (&array)
 #define COLORS_BUF 1
 #define INDICES_BUF 2
 
-TextAdapter::TextAdapter(TextObject &text_object)
-    : SceneObjectAdapter(text_object)
-    , text_object_(text_object)
-    , atlas_texture_(AtlasTexture(512, 512))
+TextAdapter::TextAdapter(TextObject& text_object)
+    : SceneObjectAdapter(text_object), text_object_(text_object), atlas_texture_(AtlasTexture(512, 512))
 {
     glGenVertexArrays(1, &static_vao_object_);
     glGenBuffers(ARRAY_SIZE(static_vbo_objects_), static_vbo_objects_);
@@ -55,10 +54,10 @@ TextAdapter::~TextAdapter()
     glDeleteBuffers(ARRAY_SIZE(dynamic_vbo_objects_), dynamic_vbo_objects_);
 }
 
-void TextAdapter::StaticTextAdded(const EventInfo &info)
+void TextAdapter::StaticTextAdded(const EventInfo& info)
 {
-    const TextObjectInfo &to_info = dynamic_cast<const TextObjectInfo &>(info);
-    const auto &entry = to_info.GetEntry();
+    const TextObjectInfo& to_info = dynamic_cast<const TextObjectInfo&>(info);
+    const auto& entry = to_info.GetEntry();
 
     std::shared_ptr<FontHandler> font_handler = FindFontHandler(entry.font_name, entry.font_size);
     font_handler->GenerateRenderDataForText(entry.text, entry.x, entry.y, static_text_vertices_, static_text_indices_);
@@ -69,13 +68,13 @@ void TextAdapter::StaticTextAdded(const EventInfo &info)
 
     UpdateStaticData();
 
-    text_key_to_font_handler[entry.key] = font_handler;
+    text_key_to_font_handler_[entry.key] = font_handler;
 }
 
-void TextAdapter::DynamicTextAdded(const EventInfo &info)
+void TextAdapter::DynamicTextAdded(const EventInfo& info)
 {
-    const TextObjectInfo &to_info = dynamic_cast<const TextObjectInfo &>(info);
-    const auto &entry = to_info.GetEntry();
+    const TextObjectInfo& to_info = dynamic_cast<const TextObjectInfo&>(info);
+    const auto& entry = to_info.GetEntry();
 
     std::shared_ptr<FontHandler> font_handler = FindFontHandler(entry.font_name, entry.font_size);
     font_handler->GenerateRenderDataForText(
@@ -87,39 +86,39 @@ void TextAdapter::DynamicTextAdded(const EventInfo &info)
 
     UpdateDynamicData();
 
-    text_key_to_font_handler[entry.key] = font_handler;
+    text_key_to_font_handler_[entry.key] = font_handler;
 }
 
-void TextAdapter::TextRemoved(const EventInfo &info)
+void TextAdapter::TextRemoved(const EventInfo& info)
 {
     UpdateData();
 }
 
-void TextAdapter::DynamicTextChanged(const EventInfo &info)
+void TextAdapter::DynamicTextChanged(const EventInfo& info)
 {
     dynamic_text_vertices_.clear();
     dynamic_text_indices_.clear();
 
-    const auto &dynamic_entries = text_object_.GetDynamicTextEntries();
-    for (const auto &it : dynamic_entries)
+    const auto& dynamic_entries = text_object_.GetDynamicTextEntries();
+    for(const auto& it : dynamic_entries)
     {
-        std::shared_ptr<FontHandler> font_handler = text_key_to_font_handler[it.key];
+        std::shared_ptr<FontHandler> font_handler = text_key_to_font_handler_[it.key];
         font_handler->GenerateRenderDataForText(it.text, it.x, it.y, dynamic_text_vertices_, dynamic_text_indices_);
     }
 
     UpdateDynamicData();
 }
 
-std::shared_ptr<FontHandler> TextAdapter::FindFontHandler(const std::string &font_name, unsigned int font_size)
+std::shared_ptr<FontHandler> TextAdapter::FindFontHandler(const std::string& font_name, unsigned int font_size)
 {
-    for (auto &it : text_key_to_font_handler)
+    for(auto& it : text_key_to_font_handler_)
     {
-        if ((it.second)->FontName() != font_name)
+        if((it.second)->FontName() != font_name)
         {
             continue;
         }
 
-        if ((it.second)->FontSize() != font_size)
+        if((it.second)->FontSize() != font_size)
         {
             continue;
         }
@@ -134,16 +133,16 @@ void TextAdapter::UpdateData()
 {
     static_text_vertices_.clear();
     static_text_indices_.clear();
-    const auto &static_entries = text_object_.GetStaticTextEntries();
-    for (const auto &it : static_entries)
+    const auto& static_entries = text_object_.GetStaticTextEntries();
+    for(const auto& it : static_entries)
     {
         StaticTextAdded(TextObjectInfo(it));
     }
 
     dynamic_text_vertices_.clear();
     dynamic_text_indices_.clear();
-    const auto &dynamic_entries = text_object_.GetDynamicTextEntries();
-    for (const auto &it : dynamic_entries)
+    const auto& dynamic_entries = text_object_.GetDynamicTextEntries();
+    for(const auto& it : dynamic_entries)
     {
         DynamicTextAdded(TextObjectInfo(it));
     }
@@ -212,7 +211,7 @@ void TextAdapter::Render()
     atlas_texture_.Bind();
 
     unsigned int num_static_indices = static_text_indices_.size() * 3;
-    if (num_static_indices)
+    if(num_static_indices)
     {
         glBindVertexArray(static_vao_object_);
         glDrawElementsBaseVertex(GL_TRIANGLES, num_static_indices, GL_UNSIGNED_INT, 0, 0);
@@ -220,7 +219,7 @@ void TextAdapter::Render()
     }
 
     unsigned int num_dynamic_indices = dynamic_text_indices_.size() * 3;
-    if (num_dynamic_indices)
+    if(num_dynamic_indices)
     {
         glBindVertexArray(dynamic_vao_object_);
         glDrawElementsBaseVertex(GL_TRIANGLES, num_dynamic_indices, GL_UNSIGNED_INT, 0, 0);

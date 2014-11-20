@@ -27,21 +27,21 @@ struct PointData
 
 class PointObject : public SceneObject
 {
-public:
+    public:
     PointObject() = delete;
     explicit PointObject(SceneObject *parent, std::string name, int priority = 1);
     PointObject(const PointObject &) = delete;
     PointObject &operator=(const PointObject &) = delete;
-    virtual ~PointObject();
+    ~PointObject();
 
     void AppendData(const std::vector<glm::vec3> &vertices,
                     const std::vector<glm::vec4> &colors,
                     const std::vector<int> &indices);
 
-    const PointData &PointDataRef();
+    const PointData &GetPointData();
 
-private:
-    PointData point_data;
+    private:
+    PointData point_data_;
 };
 
 #endif

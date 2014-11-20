@@ -2,35 +2,33 @@
 
 #include "auxiliary/geometry_utils.hpp"
 
-ShellObject::ShellObject(SceneObject * parent, std::string name, int priority):
-    SceneObject(parent, name, priority)
+ShellObject::ShellObject(SceneObject* parent, std::string name, int priority) : SceneObject(parent, name, priority)
 {
-
 }
 
-ShellObject::~ShellObject(){
-
+ShellObject::~ShellObject()
+{
 }
 
-void ShellObject::AppendData(const std::vector<glm::vec3> & vertices,
-                             const std::vector<glm::vec4> & colors,
-                             const std::vector<glm::ivec3> & indices)
+void ShellObject::AppendData(const std::vector<glm::vec3>& vertices,
+                             const std::vector<glm::vec4>& colors,
+                             const std::vector<glm::ivec3>& indices)
 {
     // Calculate and copy normals
     std::vector<glm::vec3> normals(vertices.size(), glm::vec3(0.0, 0.0, 0.0));
-    CalculateNormals(vertices, indices, normals); 
-     
-    AppendData(vertices, normals, colors, indices);  
+    CalculateNormals(vertices, indices, normals);
+
+    AppendData(vertices, normals, colors, indices);
 }
 
-void ShellObject::AppendData(const std::vector<glm::vec3> & vertices,
-                             const std::vector<glm::vec3> & normals,
-                             const std::vector<glm::vec4> & colors,
-                             const std::vector<glm::ivec3> & indices)
+void ShellObject::AppendData(const std::vector<glm::vec3>& vertices,
+                             const std::vector<glm::vec3>& normals,
+                             const std::vector<glm::vec4>& colors,
+                             const std::vector<glm::ivec3>& indices)
 {
     ShellEntry new_entry = ShellEntry();
     new_entry.NumIndices = indices.size() * 3;
-    new_entry.VertexOffset = shell_data.vertices.size() ;
+    new_entry.VertexOffset = shell_data.vertices.size();
     new_entry.IndicesOffset = shell_data.indices.size() * 3;
     shell_data.entries.push_back(std::move(new_entry));
 
@@ -53,19 +51,24 @@ void ShellObject::AppendData(const std::vector<glm::vec3> & vertices,
     Emit(SceneObjectEvents::DATA_UPDATE);
 }
 
-void ShellObject::Highlight(bool highlight){
-    if(highlight){
+void ShellObject::Highlight(bool highlight)
+{
+    if(highlight)
+    {
         shell_material.status = 1;
     }
-    else{
+    else
+    {
         shell_material.status = 0;
     }
 }
 
-const ShellData & ShellObject::ShellDataRef(){
+const ShellData& ShellObject::GetShellData()
+{
     return shell_data;
 }
 
-const ShellMaterial & ShellObject::ShellMaterialRef(){
+const ShellMaterial& ShellObject::GetShellMaterial()
+{
     return shell_material;
 }

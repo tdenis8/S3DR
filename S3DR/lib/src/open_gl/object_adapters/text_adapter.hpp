@@ -11,31 +11,30 @@ class TextAdapter : public SceneObjectAdapter
 {
     public:
     TextAdapter() = delete;
-    TextAdapter(TextObject &text_object);
-    TextAdapter(const TextAdapter &) = delete;
-    TextAdapter &operator=(const TextAdapter &) = delete;
-
-    virtual ~TextAdapter();
+    TextAdapter(TextObject& text_object);
+    TextAdapter(const TextAdapter&) = delete;
+    TextAdapter& operator=(const TextAdapter&) = delete;
+    ~TextAdapter();
 
     void Render();
     void SelectionRender(std::function<void(int)> set_scene_object_key, std::function<void(int)> set_entry_index);
 
     private:
-    void StaticTextAdded(const EventInfo &info);
-    void DynamicTextAdded(const EventInfo &info);
-    void TextRemoved(const EventInfo &info);
-    void DynamicTextChanged(const EventInfo &info);
+    void StaticTextAdded(const EventInfo& info);
+    void DynamicTextAdded(const EventInfo& info);
+    void TextRemoved(const EventInfo& info);
+    void DynamicTextChanged(const EventInfo& info);
 
-    std::shared_ptr<FontHandler> FindFontHandler(const std::string &font_name, unsigned int font_size);
+    std::shared_ptr<FontHandler> FindFontHandler(const std::string& font_name, unsigned int font_size);
 
     void UpdateData();
     void UpdateStaticData();
     void UpdateDynamicData();
 
-    TextObject &text_object_;
+    TextObject& text_object_;
 
     AtlasTexture atlas_texture_;
-    std::map<unsigned int, std::shared_ptr<FontHandler> > text_key_to_font_handler;
+    std::map<unsigned int, std::shared_ptr<FontHandler> > text_key_to_font_handler_;
 
     GLuint static_vao_object_;
     GLuint static_vbo_objects_[3];

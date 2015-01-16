@@ -2,16 +2,10 @@
 
 #include "view.hpp"
 
-ViewAdapter::ViewAdapter(View & view):
-	view(view)
+ViewAdapter::ViewAdapter(View &view) : view_(view), camera_(view.GetCamera()), view_settings_(view.GetViewSettings())
 {
-
 }
 
-ViewAdapter::~ViewAdapter(){
-
-}
-
-const ViewSettings & ViewAdapter::ViewSettingsRef() const {
-	return view.ViewSettingsRef();
+ViewAdapter::~ViewAdapter()
+{
 }

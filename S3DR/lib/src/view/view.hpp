@@ -2,20 +2,21 @@
 #define _VIEW_H_
 
 #include "utility/subject.hpp"
+
 #include "mouse_events_dispatcher.hpp"
 #include "keyboard_events_dispatcher.hpp"
-#include "view_adapter.hpp"
+#include "lights_manager.hpp"
+
+#include "camera.hpp"
+#include "selection_set.hpp"
 
 #include <glm/glm.hpp>
 #include <memory>
 
 // Forward declarations
-class Projection;
-class Camera;
-class ViewAdapter;
 class Model;
 class Operator;
-class SelectionSet;
+class ViewAdapter;
 
 enum class ViewEvent : unsigned int
 {
@@ -81,36 +82,35 @@ class View : public Subject<ViewEvent>, public MouseEventsDispatcher, public Key
 
     void AttachModel(Model* model);
     void DetachModel();
-    Model* ModelPtr();
+    Model* GetModel();
 
     void AttachOperator(Operator* opr);
     void DetachOperator();
-    Operator* OperatorPtr();
+    Operator* GetOperator();
 
     void Redraw();
 
     void WindowResize(int width, int height);
-
-    // Viewer settings setters
     void SetBackgroundColor(const glm::vec3& background_color);
 
     SelectionSet& GetSelectionSet();
 
     protected:
-    Camera& CameraRef();
-    Projection& ProjectionRef();
-    const ViewSettings& ViewSettingsRef() const;
+    Camera& GetCamera();
+    ViewSettings& GetViewSettings();
+
     float ScreenDepthAt(int x, int y) const;
 
     private:
-    ViewSettings view_settings;
+    Camera camera_;
+    LightsManager lights_manager_;
+    ViewSettings view_settings_;
+    SelectionSet selection_set_;
 
-    std::unique_ptr<Projection> projection;
-    std::unique_ptr<Camera> camera;
-    std::unique_ptr<SelectionSet> selection_set;
-    std::unique_ptr<ViewAdapter> view_adapter;
-    Model* model;
-    Operator* opr;
+    std::unique_ptr<ViewAdapter> view_adapter_;
+
+    Model* model_;
+    Operator* operator_;
 };
 
 #endif

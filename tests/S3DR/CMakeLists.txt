@@ -19,7 +19,8 @@ SET(S3DR_TESTS_SRC ${S3DR_TESTS_SRC_DIR}/tests/model_tests.cpp
                    ${S3DR_TESTS_SRC_DIR}/tests/point_tests.cpp   
                    ${S3DR_TESTS_SRC_DIR}/tests/line_tests.cpp   
                    ${S3DR_TESTS_SRC_DIR}/tests/shell_tests.cpp   
-                   ${S3DR_TESTS_SRC_DIR}/tests/text_tests.cpp)
+                   ${S3DR_TESTS_SRC_DIR}/tests/text_tests.cpp
+                   ${S3DR_TESTS_SRC_DIR}/tests/light_tests.cpp)
 
 SET(S3DR_TESTS_SRC_ALL ${S3DR_MAIN_SRC}
 					   ${S3DR_AUXILIARY_SRC}

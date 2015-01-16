@@ -4,7 +4,8 @@
 #include <glm/gtx/quaternion.hpp>
 
 GeometryObject::GeometryObject()
-    : position_(glm::vec3(0.0))
+    : Subject()
+    , position_(glm::vec3(0.0))
     , scale_factor_(glm::vec3(1.0))
     , orientation_(glm::fquat(0.0f, 0.0f, 0.0f, 0.0f))
     , model_matrix_(glm::mat4(1.0))
@@ -21,6 +22,8 @@ void GeometryObject::CalculateModelMatrix()
     tmp_model_matrix = glm::scale(tmp_model_matrix, scale_factor_);
     tmp_model_matrix *= glm::mat4_cast(orientation_);
     model_matrix_ = glm::translate(tmp_model_matrix, position_);
+
+    Emit(GeometryObjectEvents::MODEL_MATRIX_CHANGE);
 }
 
 void GeometryObject::SetPosition(const glm::vec3& position)

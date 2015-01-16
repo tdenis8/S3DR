@@ -43,7 +43,7 @@ class Model : public Subject<ModelEvents>
     ~Model();
 
     // NOTE: this method move ownership of scene_object to model
-    int InsertSceneObject(std::unique_ptr<SceneObject> &scene_object);
+    int AddSceneObject(std::unique_ptr<SceneObject> &scene_object);
     void RemoveSceneObject(int key);
 
     void Reset();

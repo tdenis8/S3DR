@@ -66,10 +66,10 @@ void ViewWindow(Model& model,
     // Enters into loop
     if(show_fps_counter and fps_counter_font_path.size() > 0)
     {
-        std::unique_ptr<ModelHandler> model_handler(new ModelHandler(model));
+        std::unique_ptr<ModelManager> model_manager(new ModelManager(model));
 
-        auto text_id = model_handler->GenerateTextObject(nullptr, "");
-        TextObject& text_object = model_handler->GetTextObject(text_id);
+        auto text_id = model_manager->GenerateTextObject(nullptr, "");
+        TextObject& text_object = model_manager->GetTextObject(text_id);
 
         text_object.SetFontNameAndFontSize(fps_counter_font_path, 24);
         unsigned int fps_text_id = text_object.AddDynamicText(L"", glm::vec4(0, 0, 1, 0), 10, 30);

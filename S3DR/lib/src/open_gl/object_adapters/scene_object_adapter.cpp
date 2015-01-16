@@ -2,14 +2,15 @@
 
 SceneObjectAdapter::SceneObjectAdapter(SceneObject& scene_object) : Observer(), scene_object_(scene_object)
 {
-    scene_object_.Observe(SceneObjectEvents::DATA_UPDATE,
-                          std::bind(&SceneObjectAdapter::SceneObjectDataUpdate, this, std::placeholders::_1),
-                          this);
+    scene_object_.Subject<SceneObjectEvents>::Observe(
+        SceneObjectEvents::DATA_UPDATE,
+        std::bind(&SceneObjectAdapter::SceneObjectDataUpdate, this, std::placeholders::_1),
+        this);
 }
 
 SceneObjectAdapter::~SceneObjectAdapter()
 {
-    scene_object_.RemoveObservers(this);
+    scene_object_.Subject<SceneObjectEvents>::RemoveObservers(this);
 }
 
 void SceneObjectAdapter::SceneObjectDataUpdate(const EventInfo& info)

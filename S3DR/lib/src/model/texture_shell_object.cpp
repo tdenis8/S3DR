@@ -56,7 +56,7 @@ void TextureShellObject::AppendData(const std::vector<glm::vec3>& vertices,
     texture_shell_data_.indices.reserve(texture_shell_data_.indices.size() + indices.size());
     texture_shell_data_.indices.insert(texture_shell_data_.indices.end(), indices.begin(), indices.end());
 
-    Emit(SceneObjectEvents::DATA_UPDATE);
+    Subject<SceneObjectEvents>::Emit(SceneObjectEvents::DATA_UPDATE);
 }
 
 const TextureShellData& TextureShellObject::GetTextureShellData()

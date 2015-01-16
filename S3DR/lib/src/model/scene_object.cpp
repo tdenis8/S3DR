@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 SceneObject::SceneObject(SceneObject* parent, std::string name, int priority)
-    : Subject()
+    : Subject<SceneObjectEvents>::Subject()
     , Observer()
     , GeometryObject()
     , parent_(parent)
@@ -24,9 +24,10 @@ SceneObject::SceneObject(SceneObject* parent, std::string name, int priority)
 
     if(parent != nullptr)
     {
-        parent->Observe(SceneObjectEvents::COMBINED_MODEL_MATRIX_CHANGE,
-                        std::bind(&SceneObject::ParentModelMatrixChange, this, std::placeholders::_1),
-                        this);
+        parent->Subject<SceneObjectEvents>::Observe(
+            SceneObjectEvents::COMBINED_MODEL_MATRIX_CHANGE,
+            std::bind(&SceneObject::ParentModelMatrixChange, this, std::placeholders::_1),
+            this);
     }
 }
 
@@ -34,14 +35,14 @@ SceneObject::~SceneObject()
 {
     if(parent_ != nullptr)
     {
-        parent_->RemoveObservers(this);
+        parent_->Subject<SceneObjectEvents>::RemoveObservers(this);
     }
 }
 
 void SceneObject::ParentModelMatrixChange(const EventInfo& info)
 {
     combine_model_matrix_ = parent_->GetCombineModelMatrix() * GetModelMatrix();
-    Emit(SceneObjectEvents::COMBINED_MODEL_MATRIX_CHANGE);
+    Subject<SceneObjectEvents>::Emit(SceneObjectEvents::COMBINED_MODEL_MATRIX_CHANGE);
 }
 
 void SceneObject::CalculateModelMatrix()

@@ -13,7 +13,7 @@ Model::~Model()
     Reset();
 }
 
-int Model::InsertSceneObject(std::unique_ptr<SceneObject>& scene_object)
+int Model::AddSceneObject(std::unique_ptr<SceneObject>& scene_object)
 {
     int key = id_counter_++;
     scene_object->SetKey(key);

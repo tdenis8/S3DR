@@ -1,8 +1,10 @@
 #include "tests/model_tests.hpp"
+#include "tests/text_tests.hpp"
 #include "tests/point_tests.hpp"
 #include "tests/line_tests.hpp"
 #include "tests/shell_tests.hpp"
-#include "tests/text_tests.hpp"
+
+#include "tests/light_tests.hpp"
 
 #include "auxiliary/resources_handler.hpp"
 
@@ -40,9 +42,11 @@ int main(int argc, char const* argv[])
     set_main_resource_path(args[1]);
 
     RunModelTests();
+    RunTextTests();
     RunPointTests();
     RunLineTests();
     RunShellTests();
-    RunTextTests();
+    RunLightTests();
+
     return 0;
 }

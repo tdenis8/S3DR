@@ -1,11 +1,18 @@
 #ifndef _GEOMETRY_OBJECT_H_
 #define _GEOMETRY_OBJECT_H_
 
+#include "utility/subject.hpp"
+
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-class GeometryObject
+enum class GeometryObjectEvents : unsigned int
+{
+    MODEL_MATRIX_CHANGE,
+};
+
+class GeometryObject : public Subject<GeometryObjectEvents>
 {
     public:
     GeometryObject();

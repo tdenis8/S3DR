@@ -7,19 +7,19 @@
 
 class Shader
 {
-    public:
-    Shader() = delete;
-    Shader(const std::string &shader_string, GLenum shader_type);
-    ~Shader();
-    // Shader(const Shader &)=delete;
-    // Shader & operator=(const Shader &)=delete;
+   public:
+   Shader() = delete;
+   Shader(const std::string &shader_string, GLenum shader_type, const std::string &shader_name = "UNDEFINED_SHADER_NAME");
+   ~Shader();
+   // Shader(const Shader &)=delete;
+   // Shader & operator=(const Shader &)=delete;
 
-    static Shader ShaderFromFile(const std::string &file_path, GLenum shader_type);
+   static Shader ShaderFromFile(const std::string &file_path, GLenum shader_type);
 
-    GLuint ShaderObject() const;
+   GLuint ShaderObject() const;
 
-    private:
-    std::shared_ptr<GLuint> shader_obj;
+   private:
+   std::shared_ptr<GLuint> shader_obj;
 };
 
 #endif

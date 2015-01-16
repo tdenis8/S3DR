@@ -3,7 +3,7 @@
 #include "utility/math_utils.hpp"
 #include "asset/3D_shapes.hpp"
 #include "asset/assimp_mesh_loader.hpp"
-#include "model/model_handler.hpp"
+#include "model/model_manager.hpp"
 
 #include "auxiliary/test_env.hpp"
 

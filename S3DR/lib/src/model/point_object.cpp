@@ -30,7 +30,7 @@ void PointObject::AppendData(const std::vector<glm::vec3>& vertices,
     point_data_.indices.reserve(point_data_.indices.size() + indices.size());
     point_data_.indices.insert(point_data_.indices.end(), indices.begin(), indices.end());
 
-    Emit(SceneObjectEvents::DATA_UPDATE);
+    Subject<SceneObjectEvents>::Emit(SceneObjectEvents::DATA_UPDATE);
 }
 
 const PointData& PointObject::GetPointData()

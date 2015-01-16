@@ -1,7 +1,7 @@
 #include "line_tests.hpp"
 
 #include "utility/math_utils.hpp"
-#include "model/model_handler.hpp"
+#include "model/model_manager.hpp"
 
 #include "auxiliary/test_env.hpp"
 
@@ -12,11 +12,11 @@
 bool TestLine1()
 {
     // Create new model
-    std::unique_ptr<ModelHandler> model_handler(new ModelHandler("Model1"));
+    std::unique_ptr<ModelManager> model_manager(new ModelManager("Model1"));
 
     // Add line object to the model
-    int id = model_handler->GenerateLineObject(nullptr, "Line");
-    LineObject& line_object = model_handler->GetLineObject(id);
+    int id = model_manager->GenerateLineObject(nullptr, "Line");
+    LineObject& line_object = model_manager->GetLineObject(id);
 
     // Line data
     std::vector<glm::vec3> points{
@@ -32,7 +32,7 @@ bool TestLine1()
     line_object.AppendData(points, colors, indices);
 
     // Create view and attach model to it
-    return RunWithinTestEnv(model_handler->GetModel(), std::string(__FUNCTION__));
+    return RunWithinTestEnv(model_manager->GetModel(), std::string(__FUNCTION__));
 }
 
 void RunLineTests()

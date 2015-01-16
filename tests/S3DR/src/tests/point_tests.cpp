@@ -1,6 +1,6 @@
 #include "point_tests.hpp"
 
-#include "model/model_handler.hpp"
+#include "model/model_manager.hpp"
 #include "asset/3D_shapes.hpp"
 
 #include "auxiliary/test_env.hpp"
@@ -12,11 +12,11 @@
 bool TestPoint1()
 {
     // Create new model
-    std::unique_ptr<ModelHandler> model_handler(new ModelHandler("Model1"));
+    std::unique_ptr<ModelManager> model_manager(new ModelManager("Model1"));
 
     // Add point object to the model
-    int id = model_handler->GeneratePointObject(nullptr, "Point");
-    PointObject& point_object = model_handler->GetPointObject(id);
+    int id = model_manager->GeneratePointObject(nullptr, "Point");
+    PointObject& point_object = model_manager->GetPointObject(id);
 
     // Points data
     std::vector<glm::vec3> points;
@@ -35,7 +35,7 @@ bool TestPoint1()
     point_object.AppendData(points, colors, indices);
 
     // Create view and attach model to it
-    return RunWithinTestEnv(model_handler->GetModel(), std::string(__FUNCTION__));
+    return RunWithinTestEnv(model_manager->GetModel(), std::string(__FUNCTION__));
 }
 
 void RunPointTests()

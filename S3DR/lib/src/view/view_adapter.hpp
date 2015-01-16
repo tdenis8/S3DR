@@ -6,6 +6,7 @@
 
 // Forward declarations
 class View;
+class Camera;
 struct ViewSettings;
 
 /// \brief ...
@@ -13,20 +14,20 @@ struct ViewSettings;
 /// Render data in model
 class ViewAdapter
 {
-public:
+    public:
     ViewAdapter() = delete;
     ViewAdapter(View &view);
     ViewAdapter(const ViewAdapter &) = delete;
     ViewAdapter &operator=(const ViewAdapter &) = delete;
     virtual ~ViewAdapter();
 
-    virtual void Render(const glm::mat4 &view_matrix, const glm::mat4 &projection_matrix) = 0;
+    virtual void Render() = 0;
     virtual float ScreenDepthAt(int x, int y) const = 0;
 
-protected:
-    const ViewSettings &ViewSettingsRef() const;
-
-    View &view;
+    protected:
+    View &view_;
+    Camera &camera_;
+    ViewSettings &view_settings_;
 };
 
 #endif

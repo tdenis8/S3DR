@@ -1,7 +1,7 @@
 #ifndef _VIEW_WINDOW_HPP_
 #define _VIEW_WINDOW_HPP_
 
-#include "model/model_handler.hpp"
+#include "model/model_manager.hpp"
 
 #include <string>
 
@@ -18,8 +18,10 @@ class FPSCounter
     int num_frames;
 };
 
-void
-ViewWindow(Model& model, const std::string& title, bool show_fps_counter, const std::string& fps_counter_font_path);
+void ViewWindow(Model& model,
+                const std::string& title,
+                bool show_fps_counter,
+                const std::string& fps_counter_font_path);
 
 void ViewWindow(Model& model,
                 const std::string& title,

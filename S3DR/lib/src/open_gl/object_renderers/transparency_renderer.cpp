@@ -1,6 +1,6 @@
 #include "transparency_renderer.hpp"
 
-#include "../object_adapters/shell_adapter.hpp"
+#include "../object_adapters/material_shell_adapter.hpp"
 
 #include "shaders/include/DDPInitVS.hpp"
 #include "shaders/include/DDPInitFS.hpp"

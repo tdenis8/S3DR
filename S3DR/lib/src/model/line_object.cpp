@@ -30,7 +30,7 @@ void LineObject::AppendData(const std::vector<glm::vec3>& vertices,
     line_data_.indices.reserve(line_data_.indices.size() + indices.size());
     line_data_.indices.insert(line_data_.indices.end(), indices.begin(), indices.end());
 
-    Emit(SceneObjectEvents::DATA_UPDATE);
+    Subject<SceneObjectEvents>::Emit(SceneObjectEvents::DATA_UPDATE);
 }
 
 const LineData& LineObject::GetLineData()
